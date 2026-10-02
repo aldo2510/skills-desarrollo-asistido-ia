@@ -1,163 +1,116 @@
-## Step 3: Implementa, prueba, depura y prepara el cambio
+## Step 3: Implementa y prueba
 
-Esta es la parte principal del laboratorio.
+> **Idea clave:** ahora vas a pasar del plan al código, pero manteniendo control sobre cada cambio que propone la IA.
 
-> **Idea clave:** desarrollo asistido por IA no significa "generar código y aceptar". Vas a recorrer un ciclo completo: implementar → comparar → probar → romper → depurar → preparar PR → revisar como humano.
-
----
-
-### Fase A — Implementación con Copilot Agent
+### 1. Implementa con Copilot Agent
 
 Pide a Copilot Agent:
 
-> Implementa el requerimiento de prioridad descrito en docs/implementation-plan.md. Inspecciona el código existente, modifica los modelos y endpoints necesarios, valida los valores permitidos y agrega las pruebas necesarias. Ejecuta pytest y explícame qué cambiaste. No modifiques archivos que no sean necesarios.
+> Implementa el requerimiento de prioridad descrito en docs/implementation-plan.md. Inspecciona el código existente, modifica solo los archivos necesarios, valida low/medium/high, haz que priority sea obligatoria al crear una tarea y agrega las pruebas necesarias. Ejecuta pytest y explícame los cambios.
 
-Antes de aceptar los cambios:
-
-1. revisa el diff;
-2. identifica qué archivos cambió;
-3. verifica que cada cambio tenga relación con el requerimiento;
-4. pregunta a Copilot por cualquier línea que no entiendas.
+Antes de aceptar el resultado:
+- revisa el diff;
+- identifica cada archivo modificado;
+- comprueba que cada cambio responde al plan;
+- pregunta por cualquier cambio que no entiendas.
 
 Debes conseguir:
-- `Task` contiene `priority`;
-- solo se aceptan `low`, `medium` o `high`;
+- Task contiene priority;
+- solo se aceptan low, medium y high;
 - crear una tarea exige prioridad;
 - GET /tasks devuelve prioridad.
 
-### Fase B — Contrasta soluciones
+### 2. Comprueba la funcionalidad
 
-No asumas que la primera solución es la única.
+Ejecuta:
 
-Pide una segunda propuesta:
+    pytest -q
 
-> Propón otra forma de modelar y validar priority. Compara mantenibilidad, claridad, validación automática, extensibilidad y riesgo con la implementación actual. No cambies el código.
+Además, prueba manualmente al menos una petición válida y una inválida.
 
-Documenta en `docs/implementation-review.md`:
-
-- opción elegida;
-- alternativa considerada;
-- ventajas y riesgos;
-- qué cambiaste de la propuesta de Copilot;
-- por qué la solución final es adecuada para este ejercicio.
-
-### Fase C — Pruebas como actividad de ingeniería
+### 3. Compara dos soluciones
 
 Pide a Copilot:
 
-> Diseña una estrategia de pruebas para priority. Primero enumera los escenarios y explica qué riesgo cubre cada uno. Después implementa tests/test_priority.py.
+> Propón otra forma de modelar y validar priority. Compara la implementación actual con la alternativa en claridad, mantenibilidad, validación automática y extensibilidad. No cambies el código.
 
-Cubre como mínimo:
-- `low`;
-- `medium`;
-- `high`;
+Crea docs/implementation-review.md con esta estructura:
+
+    # Revisión de implementación
+
+    ## Opción implementada
+    - Descripción:
+    - Cómo funciona:
+    - Ventajas:
+    - Riesgos:
+
+    ## Alternativa propuesta por Copilot
+    - Descripción:
+    - Ventajas:
+    - Riesgos:
+
+    ## Comparación
+    | Criterio | Actual | Alternativa |
+    |---|---|---|
+    | Claridad | ... | ... |
+    | Mantenibilidad | ... | ... |
+    | Validación | ... | ... |
+    | Extensibilidad | ... | ... |
+
+    ## Decisión humana
+    - Qué elegí:
+    - Por qué:
+    - Qué cambié o rechacé de la propuesta de IA:
+
+### 4. Diseña las pruebas con IA
+
+Pide:
+
+> Diseña una estrategia de pruebas para priority. Enumera primero los escenarios y el riesgo que cubre cada uno. Después implementa tests/test_priority.py.
+
+Cubre:
+- low;
+- medium;
+- high;
 - prioridad inválida;
 - prioridad ausente;
 - prioridad visible en GET /tasks;
 - creación de una tarea con prioridad.
 
-Ejecuta:
-
-```bash
-pytest -q
-```
-
 Después pide:
 
-> Revisa estas pruebas como QA senior. Busca falsos positivos, assertions débiles y escenarios que podrían pasar aunque la implementación estuviera incorrecta.
+> Revisa estas pruebas como QA senior. Busca assertions débiles, falsos positivos y escenarios que podrían pasar aunque la implementación estuviera incorrecta.
 
-Corrige cualquier prueba débil.
+Crea docs/test-strategy.md con esta estructura:
 
-### Fase D — Debugging intencional
+    # Estrategia de pruebas
 
-Ahora vas a investigar un problema diferente al requerimiento principal.
+    ## Escenarios cubiertos
+    | Escenario | Qué valida | Resultado |
+    |---|---|---|
+    | ... | ... | ... |
 
-La función `create_task` contiene una debilidad: si la colección de tareas queda vacía, el cálculo del siguiente ID puede fallar.
+    ## Escenarios no cubiertos
+    - ...
 
-La idea es experimentar con IA como herramienta de diagnóstico.
+    ## Recomendaciones de Copilot
+    - ...
 
-Pide a Copilot:
+    ## Verificación humana
+    - Qué revisé:
+    - Qué prueba corregí:
+    - Por qué:
 
-> Analiza create_task. ¿Qué ocurre si tasks está vacío? Antes de proponer una corrección, explícame cómo reproducir el problema y qué prueba de regresión debería existir.
+### 5. Criterios de salida
 
-Después:
-
-1. reproduce el fallo;
-2. crea una prueba de regresión;
-3. ejecuta únicamente esa prueba y observa el fallo;
-4. pide a Copilot que explique la causa raíz;
-5. pide al menos dos posibles correcciones;
-6. elige una;
-7. revisa el diff;
-8. ejecuta toda la suite.
-
-Documenta en `docs/debugging-notes.md`:
-
-- síntoma;
-- reproducción;
-- causa raíz;
-- hipótesis descartadas;
-- alternativas consideradas;
-- corrección elegida;
-- evidencia de pruebas.
-
-> **Pregunta importante:** ¿la IA encontró la causa raíz o simplemente reconoció un patrón conocido? Explica cómo lo comprobaste.
-
-### Fase E — Pull Request
-
-Usa Copilot para preparar `docs/pr-description.md`.
-
-Pide:
-
-> Genera una descripción de Pull Request para este cambio. Resume problema, solución, archivos modificados, pruebas ejecutadas, riesgos, rollback y decisiones humanas. No inventes evidencia: usa solo lo que realmente existe en el repositorio.
-
-Incluye:
-- problema;
-- solución;
-- archivos modificados;
-- pruebas;
-- riesgos;
-- rollback;
-- decisiones humanas;
-- limitaciones conocidas.
-
-Crea una rama y abre un Pull Request contra `main`.
-
-**No hagas merge todavía.**
-
-### Fase F — Revisión humana del PR
-
-Lee el diff completo del PR como si fueras reviewer.
-
-Busca:
-
-- cambios no relacionados;
-- validaciones faltantes;
-- tests que podrían dar falsos positivos;
-- nombres poco claros;
-- comportamiento inesperado;
-- documentación que afirma algo que no está demostrado.
-
-Completa `x-review.md` con:
-
-- una sugerencia de IA que aceptaste;
-- una que modificaste o rechazaste;
-- una validación que nunca delegarías a la IA;
-- un defecto que descubriste tú;
-- qué evidencia te convenció de que el cambio funciona.
+- [ ] La funcionalidad está implementada.
+- [ ] tests/test_priority.py existe.
+- [ ] La suite pasa.
+- [ ] Existe docs/implementation-review.md.
+- [ ] Existe docs/test-strategy.md.
+- [ ] Revisaste el diff.
+- [ ] Comparaste una alternativa.
 
 Haz commit y push.
 
-### Fase G — Reflexión
-
-Antes de terminar, responde:
-
-1. ¿En qué fase la IA aportó más valor?
-2. ¿En qué fase necesitaste más criterio humano?
-3. ¿Qué habría pasado si hubieras aceptado todos los cambios sin revisar el diff?
-4. ¿Qué tarea le volverías a delegar a Copilot en un proyecto real?
-5. ¿Qué tarea mantendrías bajo control humano?
-
-**Tiempo sugerido: 50-60 min.**
-
-**Tiempo total acumulado del ejercicio: aproximadamente 80-90 min.**
+**Tiempo sugerido: 20-25 min.**
