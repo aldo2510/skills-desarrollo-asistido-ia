@@ -1,46 +1,42 @@
-# (replace-me: Exercise title)
+# Desarrollo asistido por IA con GitHub Copilot
 
-_(replace-me: One-line description of the exercise)_
+Aprende a usar GitHub Copilot como asistente de desarrollo para analizar, planificar, implementar, probar, depurar y documentar una aplicación.
 
 ## Welcome
 
-- **Who is this for**: (replace-me: Target audience description)
-- **What you'll learn**: (replace-me: Learning objectives)
-- **What you'll build**: (replace-me: Description of what the learner will create)
+- **Who is this for**: Desarrolladores y profesionales DevOps que quieran incorporar IA al ciclo de desarrollo.
+- **What you'll learn**: Uso de Copilot en modo agente, generación de código y tests, debugging, refactoring y preparación de Pull Requests.
+- **What you'll build**: Una API pequeña de gestión de tareas con nuevas capacidades implementadas con asistencia de IA.
 - **Prerequisites**:
-  - (replace-me: Prerequisite skill/exercise)
-  - (replace-me: Other prerequisites)
+  - Cuenta de GitHub.
+  - GitHub Codespaces o un entorno local con Python 3.11+.
+  - Acceso a GitHub Copilot.
 
-- **How long**: This exercise takes less than (replace-me: estimated time) to complete.
+- **How long**: 50-60 minutos.
 
-In this exercise, you will:
+En este ejercicio vas a:
 
-1. (replace-me: Learning objective step #1)
-1. (replace-me: Learning objective step #2)
-1. (replace-me: Learning objective step #N)
-
+1. Entender una base de código existente con Copilot.
+2. Convertir un requerimiento en un plan de implementación.
+3. Implementar una funcionalidad con Copilot Agent.
+4. Crear pruebas automatizadas y corregir un bug.
+5. Refactorizar y preparar un Pull Request.
 
 ### How to start this exercise
 
-Simply copy the exercise to your account, then give your favorite Octocat (Mona) **about 20 seconds** to prepare the first lesson, then **refresh the page**.
+Simply copy the exercise to your account, then give GitHub a few seconds to prepare the first lesson, then refresh the page.
 
-<!--  (replace-me: Make sure to edit the URL with proper template_owner, template_name, repo name and description)  -->
-[![](https://img.shields.io/badge/Copy%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/new?template_owner=skills&template_name=exercise-template&owner=%40me&name=skills-<replace-me>&description=Exercise:+Replace+me&visibility=public)
+[![](https://img.shields.io/badge/Copy%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/new?template_owner=aldo2510&template_name=skills-desarrollo-asistido-ia&owner=%40me&name=skills-desarrollo-asistido-ia&description=Exercise%3A%20Desarrollo%20asistido%20por%20IA&visibility=public)
 
-<details>
-<summary>Having trouble? 🤷</summary><br/>
+## Sobre el laboratorio
 
-When copying the exercise, we recommend the following settings:
+La aplicación de referencia es una API mínima de tareas. El alumno no necesita memorizar Python: la actividad está diseñada para practicar cómo pedir a una IA que inspeccione contexto, genere un plan, implemente cambios y verifique resultados.
 
-- For owner, choose your personal account or an organization to host the repository.
+## Progresión
 
-- We recommend creating a public repository, since private repositories will use Actions minutes.
-
-If the exercise isn't ready in 20 seconds, please check the [Actions](../../actions) tab.
-
-- Check to see if a job is running. Sometimes it simply takes a bit longer.
-
-- If the page shows a failed job, please submit an issue. Nice, you found a bug! 🐛
-
-</details>
-
+- Step 1: comprender el proyecto.
+- Step 2: analizar un requerimiento.
+- Step 3: implementar una capacidad nueva.
+- Step 4: generar y ejecutar pruebas.
+- Step 5: depurar un bug.
+- Step 6: preparar un Pull Request.
