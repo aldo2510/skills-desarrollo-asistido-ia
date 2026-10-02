@@ -1,110 +1,60 @@
-## Step 5: Revisión final
+## Step 5: Depura un fallo real
 
-### Teoría: human-in-the-loop
+### Teoría
+Debugging asistido por IA debe seguir evidencia: síntoma → reproducción → causa raíz → corrección → regresión.
 
-El objetivo del desarrollo asistido por IA no es eliminar la responsabilidad del desarrollador.
-
-Un flujo seguro mantiene al humano en tres puntos:
-
-```
-Humano define → IA acelera → Humano verifica
-```
-
-La revisión final debe comprobar que el código, las pruebas, la documentación y el Pull Request cuentan la misma historia.
-
-### 1. Ejecuta la validación completa
-
-```bash
-pytest -q
-test -f docs/project-analysis.md
-test -f docs/implementation-plan.md
-test -f docs/implementation-review.md
-test -f docs/test-strategy.md
-test -f docs/debugging-notes.md
-test -f docs/pr-description.md
-test -f x-review.md
+### Copia y pega
+```text
+Analiza create_task en app/main.py.
+No corrijas todavía.
+Explica qué ocurre si tasks está vacía y genera una prueba de regresión en tests/test_empty_tasks.py.
 ```
 
-### 2. Revisión final con Copilot
-
-Copia y pega:
+Después:
 
 ```text
-Revisa el cambio completo del ejercicio contra el requerimiento original.
-
-No modifiques archivos.
-
-Comprueba:
-- priority low/medium/high;
-- priority obligatoria;
-- GET /tasks;
-- pruebas;
-- corrección del bug de tasks vacía;
-- documentación;
-- coherencia entre código, tests y PR.
-
-Devuelve:
-1. requisitos cumplidos;
-2. requisitos no cumplidos;
-3. riesgos;
-4. inconsistencias;
-5. recomendaciones.
-
-No inventes evidencia.
+Implementa tests/test_empty_tasks.py para reproducir el fallo.
+No corrijas la implementación todavía.
+Ejecuta esa prueba y muestra el fallo.
 ```
 
-### 3. Revisión humana
+Después:
 
-Abre el Pull Request y revisa el diff.
+```text
+Analiza el fallo.
+No modifiques código.
+Explica síntoma, causa raíz, dos alternativas y evidencia.
+```
 
-Comprueba:
-- que no haya cambios no relacionados;
-- que las pruebas realmente validen el requerimiento;
-- que la documentación corresponda al código;
-- que el bug tenga prueba de regresión;
-- que el PR describa únicamente evidencia real.
+Finalmente:
 
-Si encuentras un problema, corrígelo y vuelve a ejecutar `pytest -q`.
+```text
+Corrige únicamente el bug identificado.
+Ejecuta primero la regresión y luego pytest -q.
+Muestra el diff.
+```
 
-### 4. Crea x-review.md
-
-**Copia esta estructura:**
+### Documenta
+Crea `docs/debugging-notes.md`:
 
 ```markdown
-# Revisión humana final
-
-## 1. Sugerencia de IA que acepté
-- ...
-
-## 2. Sugerencia de IA que modifiqué o rechacé
-- ...
-- Motivo: ...
-
-## 3. Defecto que detecté
-- ...
-
-## 4. Validación que no delegaría completamente a la IA
-- ...
-
-## 5. Evidencia revisada
-- ...
-
-## 6. ¿Dónde aportó más valor la IA?
+# Debugging Notes
+## Síntoma
 ...
-
-## 7. ¿Dónde fue necesario criterio humano?
+## Reproducción
 ...
-
-## 8. ¿Qué habría ocurrido si aceptaba todos los cambios sin revisar?
+## Causa raíz
 ...
-
-## 9. ¿Qué volvería a delegar?
+## Hipótesis descartadas
 ...
-
-## 10. ¿Qué mantendría bajo control humano?
+## Alternativas
+...
+## Corrección
+...
+## Evidencia
 ...
 ```
 
 Haz commit y push.
 
-**Tiempo: 10-12 min.**
+**Tiempo: 12-15 min.**
