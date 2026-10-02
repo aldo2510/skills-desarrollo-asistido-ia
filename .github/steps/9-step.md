@@ -1,63 +1,57 @@
 # Step 9 — Ejecuta la validación final
 
-## Teoría
-Antes de cerrar el ejercicio necesitas evidencia reproducible.
+## Objetivo
+Reunir evidencia antes de cerrar el cambio.
 
-## 1. Prompt
+## 1. Prompt exacto
 ~~~text
-Analiza el estado final del proyecto.
-
+Actúa como reviewer final.
 No modifiques archivos.
-
-Dime qué comandos debo ejecutar para comprobar:
-- instalación;
-- pruebas;
-- archivos obligatorios;
-- consistencia del cambio;
-- ausencia de cambios fuera de alcance.
-
-No inventes resultados.
+Revisa el requerimiento original, el diff, las pruebas y la documentación.
+Indica:
+- requisitos cubiertos;
+- pruebas ejecutadas;
+- riesgos pendientes;
+- cambios fuera de alcance;
+- evidencia faltante.
+No escribas código.
 ~~~
 
-## 2. Ejecuta la validación
-~~~bash
-python -m pip install -r requirements.txt
-pytest -q
-git status --short
-git diff --check
-test -f docs/project-analysis.md
-test -f docs/implementation-plan.md
-test -f docs/implementation-review.md
-test -f docs/test-strategy.md
-test -f docs/debugging-notes.md
-test -f docs/pr-description.md
-test -f docs/code-review.md
-test -f docs/technical-decisions.md
-~~~
+## 2. Crea docs/final-validation.md
 
-## 3. Crea docs/final-validation.md
 ~~~markdown
 # Final Validation
 
-## Comandos
+## Requisitos
+| Requisito | Evidencia | Resultado |
+|---|---|---|
+| priority acepta low | tests/test_priority.py | Cumple |
+| priority acepta medium | tests/test_priority.py | Cumple |
+| priority acepta high | tests/test_priority.py | Cumple |
+| priority es obligatoria | tests/test_priority.py | Cumple |
+| priority inválida es rechazada | tests/test_priority.py | Cumple |
+| GET devuelve priority | tests/test_priority.py | Cumple |
+| colección vacía funciona | tests/test_empty_tasks.py | Cumple |
+| regresión | pytest -q | Cumple |
+
+## Validación ejecutada
 ~~~bash
-python -m pip install -r requirements.txt
 pytest -q
-git status --short
-git diff --check
+git diff main...HEAD
 ~~~
 
-## Evidencia esperada
-- Dependencias instaladas.
-- Suite de pruebas correcta.
-- Sin errores de whitespace.
-- Documentación obligatoria presente.
+## Riesgos pendientes
+La aplicación continúa usando almacenamiento en memoria; no se introdujo una base de datos porque está fuera del alcance.
 
-## Control humano
-El resultado de cada comando debe revisarse directamente. No registrar como exitoso un comando que no fue ejecutado.
+## Decisión
+El cambio puede pasar a revisión final si todos los comandos anteriores terminan correctamente.
+~~~
 
-## Resultado
-La solución está lista para revisión final cuando todas las validaciones anteriores terminan correctamente.
+## 3. Verificación
+~~~bash
+test -f docs/final-validation.md
+pytest -q
+git diff --check
 ~~~
 
 ## 4. Commit
@@ -65,5 +59,4 @@ La solución está lista para revisión final cuando todas las validaciones ante
 git add docs/final-validation.md
 git commit -m "docs: record final validation"
 git push
-~~~
-**Tiempo sugerido: 7–8 min.**
+~~
