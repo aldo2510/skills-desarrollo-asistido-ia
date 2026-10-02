@@ -1,36 +1,24 @@
-## Step 1: (replace-me: STEP-NAME)
+## Step 1: Conoce el código con Copilot
 
-(replace-me: OPTIONAL Brief story or scenario to introduce the step)
+Abre el repositorio en Codespaces:
 
-(replace-me: OPTIONAL Reference images from the `.github/images/` directory to support any part of the content)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/{{full_repo_name}}?quickstart=1)
 
-<img width="200" alt="descriptive alt text" src="../images/inspectocat.png" />
+Ejecuta:
 
-### 📖 Theory: (replace-me: Theory title)
+```bash
+pip install -r requirements.txt
+pytest -q
+```
 
-<!-- GitHub-styled notifications can be used outside of ordered lists. Available options are: NOTE, IMPORTANT, WARNING, TIP, CAUTION -->
-<!--
-> [!NOTE]
-> (Important note or additional information relevant to this section)
- -->
+Usa Copilot Chat en modo Agent con un prompt similar a:
 
-(replace-me: Optional theory or background information relevant to this step)
+> Analiza este proyecto como un developer senior. Explica la arquitectura, los archivos principales, los endpoints y cómo ejecutar las pruebas. No cambies ningún archivo.
 
+Crea `docs/project-analysis.md` con:
+- mención de FastAPI;
+- endpoints principales;
+- cómo ejecutar las pruebas;
+- explicación breve de `app/main.py`.
 
-### ⌨️ Activity: (replace-me: Activity title)
-
-1. (replace-me: First instruction)
-
-    (replace-me: Make sure to properly indent any multiline instructions)
-
-1. (replace-me: Second instruction)
-
-1. (replace-me: Additional instructions as needed)
-
-<details>
-<summary>Having trouble? 🤷</summary><br/>
-
-- (replace-me: Troubleshooting tip or hint)
-- (replace-me: Additional troubleshooting tips as needed)
-
-</details>
+Haz commit y push. GitHub validará el resultado.
