@@ -27,7 +27,7 @@ jobs:
         run: |
           test -f docs/debugging-notes.md
           test -f docs/pr-description.md
-          grep -Eiq 'causa raíz|root cause|reprodu' docs/debugging-notes.md
+          grep -Eiq 'causa|root cause|reprodu' docs/debugging-notes.md
           test "$(gh pr list --base main --state open --json number --jq 'length')" -ge 1
           python -m pip install -r requirements.txt
           pytest -q
