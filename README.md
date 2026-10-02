@@ -28,10 +28,10 @@ Copia este ejercicio a tu cuenta y espera unos segundos para que GitHub prepare 
 
 ## Progresión
 
-1. Analiza el proyecto — 15-18 min.
-2. Convierte el requerimiento en un plan — 15-18 min.
-3. Implementa y prueba — 20-25 min.
-4. Depura y prepara el Pull Request — 18-22 min.
+1. Analiza el proyecto — 15-17 min.
+2. Convierte el requerimiento en un plan — 15-17 min.
+3. Implementa y prueba — 22-24 min.
+4. Depura y prepara el Pull Request — 18-20 min.
 5. Revisa decisiones y evidencia — 10-12 min.
 
 ## Regla del laboratorio
