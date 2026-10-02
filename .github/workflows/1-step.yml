@@ -9,30 +9,23 @@ permissions:
   issues: write
 
 env:
-  STEP_2_FILE: ".github/steps/2-step.md"
+  STEP_FILE: ".github/steps/2-step.md"
 
 jobs:
   find_exercise:
-    name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.9.1
 
   check_step_work:
-    name: Check step work
     needs: [find_exercise]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Validate submitted work
-        run: |
-      - name: Check analysis file
+      - name: Validate analysis
         run: |
           test -f docs/project-analysis.md
-      - name: Check analysis content
-        run: |
           grep -Eiq 'FastAPI|/tasks|pytest|main.py' docs/project-analysis.md
 
   post_next_step_content:
-    name: Post next step content
     needs: [find_exercise, check_step_work]
     runs-on: ubuntu-latest
     env:
@@ -56,7 +49,7 @@ jobs:
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
-          file: ${{ env.STEP_2_FILE }}
+          file: ${{ env.STEP_FILE }}
       - uses: GrantBirki/comment@v2.1.1
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
