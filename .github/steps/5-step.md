@@ -1,37 +1,80 @@
-## Step 5: Depura con IA
+## Step 5: Revisión final y reflexión humana
 
-Ahora trabaja como si hubieras recibido un incidente.
+> **Idea clave:** terminar el código no significa terminar el trabajo. La última etapa consiste en demostrar qué decidiste, qué verificaste y dónde mantuviste control humano.
 
-### Bug deliberado
+### 1. Revisa toda la evidencia
 
-La función de creación de tareas contiene una debilidad: si la colección está vacía, calcular el siguiente ID puede producir un error.
+Comprueba que existan:
+- docs/project-analysis.md
+- docs/implementation-plan.md
+- docs/implementation-review.md
+- tests/test_priority.py
+- docs/test-strategy.md
+- docs/debugging-notes.md
+- docs/pr-description.md
+- Pull Request abierto contra main
 
-Reproduce el problema de forma controlada.
+Ejecuta una última vez:
 
-Pide a Copilot:
+    pytest -q
 
-> Analiza create_task. ¿Qué ocurre si la colección de tareas está vacía? Propón una prueba de regresión antes de corregir el código.
+### 2. Revisa el Pull Request como reviewer
 
-### Objetivo
+Lee el diff completo y responde:
+- ¿el cambio implementa exactamente el requerimiento?
+- ¿hay código innecesario?
+- ¿las pruebas realmente demuestran el comportamiento?
+- ¿el bug de robustez quedó cubierto por una regresión?
+- ¿la documentación coincide con lo que realmente se hizo?
 
-1. crea una prueba que reproduzca el fallo;
-2. ejecuta la prueba y captura la evidencia;
-3. pide a Copilot que explique la causa raíz;
-4. corrige el código;
-5. vuelve a ejecutar todas las pruebas;
-6. confirma que la prueba de regresión queda permanentemente en el proyecto.
+Si encuentras un problema, corrígelo y vuelve a ejecutar las pruebas.
 
-Documenta en `docs/debugging-notes.md`:
+### 3. Completa x-review.md
 
-- síntoma;
-- reproducción;
-- causa raíz;
-- hipótesis descartadas;
-- cambio realizado;
-- evidencia de pruebas.
+Usa esta estructura:
 
-**No aceptes la primera solución de Copilot sin revisar el diff.**
+    # Revisión humana final
+
+    ## 1. Sugerencia de IA que acepté
+    - ...
+
+    ## 2. Sugerencia de IA que modifiqué o rechacé
+    - ...
+    - Motivo:
+
+    ## 3. Defecto que descubrí personalmente
+    - ...
+
+    ## 4. Validación que nunca delegaría completamente a la IA
+    - ...
+
+    ## 5. Evidencia que me convenció
+    - ...
+
+    ## 6. Reflexión
+    ### ¿Dónde aportó más valor la IA?
+    ...
+
+    ### ¿Dónde fue necesario mi criterio?
+    ...
+
+    ### ¿Qué habría ocurrido si aceptaba todos los cambios sin revisar?
+    ...
+
+    ### ¿Qué volvería a delegar a Copilot?
+    ...
+
+    ### ¿Qué mantendría bajo control humano?
+    ...
 
 Haz commit y push.
 
-**Tiempo sugerido: 12-15 min.**
+### 4. Cierre
+
+El objetivo no es demostrar que Copilot puede escribir código.
+
+El objetivo es demostrar que puedes utilizar IA dentro de un ciclo de ingeniería manteniendo:
+
+**contexto → criterio → implementación → pruebas → debugging → revisión humana.**
+
+**Tiempo sugerido: 10-12 min.**
