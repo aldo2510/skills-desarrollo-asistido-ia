@@ -1,6 +1,21 @@
 ## Step 1: Analiza el proyecto
 
+### Teoría: por qué analizar antes de programar
+
+Cuando trabajas con una base de código existente, el primer riesgo no es escribir código incorrecto: es **cambiar algo sin entender cómo funciona**.
+
+Antes de pedirle a una IA que implemente una funcionalidad, conviene construir un modelo mental mínimo del sistema:
+
+```
+Código existente → comportamiento actual → puntos de cambio → riesgos
+```
+
+Copilot puede acelerar esta exploración, pero su explicación no reemplaza la lectura del código. En este laboratorio aprenderás una práctica importante de desarrollo asistido por IA:
+
+> **Usar IA para acelerar la comprensión, pero verificar la información contra el repositorio.**
+
 ### Objetivo
+
 Usar Copilot para entender la aplicación antes de modificarla.
 
 ### 1. Instala y ejecuta
