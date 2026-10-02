@@ -1,30 +1,35 @@
-## Step 6: Cierra el ciclo con un Pull Request
+## Step 6: Prepara el Pull Request
 
-Usa Copilot para preparar `docs/pr-description.md`.
+### Teoría
+El Pull Request convierte un cambio local en una unidad revisable. La descripción debe permitir que otra persona entienda problema, solución, evidencia y riesgos sin reconstruir la historia.
 
-Incluye:
+### Copia y pega
+```text
+Genera una descripción de Pull Request usando únicamente evidencia del repositorio.
+Incluye problema, solución, archivos modificados, pruebas, riesgos, rollback y decisiones humanas.
+No inventes resultados.
+```
 
-- problema;
-- contexto;
-- solución;
-- archivos modificados;
-- pruebas ejecutadas;
-- riesgos;
-- estrategia de rollback;
-- decisiones humanas;
-- preguntas que deberían revisar otros desarrolladores.
+Crea `docs/pr-description.md`:
 
-Crea una rama de trabajo y abre un Pull Request contra `main`.
+```markdown
+# Pull Request
+## Problema
+...
+## Solución
+...
+## Archivos modificados
+- ...
+## Pruebas
+- ...
+## Riesgos
+- ...
+## Rollback
+...
+## Decisiones humanas
+...
+```
 
-En el Pull Request:
+Crea una rama, haz commit y push y abre un PR contra `main`. **No hagas merge.**
 
-- revisa el diff;
-- revisa las pruebas;
-- pide a Copilot una revisión tipo code review;
-- identifica al menos un comentario que tú mismo validarías antes de hacer merge.
-
-No hagas merge todavía.
-
-Haz commit y push de cualquier ajuste pendiente.
-
-**Tiempo sugerido: 10-12 min.**
+**Tiempo: 8-10 min.**
