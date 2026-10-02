@@ -1,101 +1,122 @@
 ## Step 2: Convierte el requerimiento en un plan
 
-> **Idea clave:** una buena interacción con IA no empieza con "hazlo". Empieza con contexto, restricciones, criterios de aceptación y una decisión explícita sobre qué se quiere construir.
-
 ### Requerimiento
 
-> Las tareas deben tener una prioridad: `low`, `medium` o `high`. La prioridad debe ser obligatoria al crear una tarea y debe aparecer al consultar tareas.
+Agregar prioridad a las tareas.
 
-### ¿Qué problema estamos resolviendo?
+Reglas:
+- valores permitidos: `low`, `medium`, `high`;
+- la prioridad es obligatoria al crear una tarea;
+- `GET /tasks` debe devolverla;
+- las pruebas deben cubrir los nuevos escenarios;
+- no cambiar funcionalidades que no estén relacionadas.
 
-Parece un cambio pequeño, pero afecta varias capas:
+### 1. Copia y pega este prompt en Copilot
 
+```text
+Analiza el requerimiento de agregar priority a Task.
+
+Requerimiento:
+- priority debe aceptar únicamente low, medium o high;
+- priority es obligatoria al crear una tarea;
+- GET /tasks debe devolver priority;
+- debemos agregar pruebas;
+- no debemos cambiar funcionalidades no relacionadas.
+
+No modifiques archivos.
+
+Genera un plan de implementación que incluya:
+1. archivos que habría que modificar;
+2. archivos que habría que crear;
+3. cambios en modelos;
+4. cambios en endpoints;
+5. estrategia de validación;
+6. pruebas necesarias;
+7. riesgos;
+8. criterios de aceptación;
+9. una alternativa de implementación y sus ventajas y riesgos.
+
+Termina con una lista de decisiones que requieren revisión humana.
 ```
-Requerimiento
-    ↓
-Modelo de datos
-    ↓
-Entrada HTTP / validación
-    ↓
-Lógica de aplicación
-    ↓
-Respuesta API
-    ↓
-Pruebas
-    ↓
-Clientes existentes
+
+### 2. Crea el documento
+
+Crea `docs/implementation-plan.md` con:
+
+```markdown
+# Implementation Plan
+
+## 1. Requerimiento
+...
+
+## 2. Archivos a modificar
+- ...
+
+## 3. Archivos a crear
+- ...
+
+## 4. Cambios de modelo
+- ...
+
+## 5. Cambios de API
+- ...
+
+## 6. Estrategia de validación
+- ...
+
+## 7. Pruebas necesarias
+- ...
+
+## 8. Criterios de aceptación
+- [ ] ...
+- [ ] ...
+- [ ] ...
+
+## 9. Riesgos
+| Riesgo | Impacto | Mitigación |
+|---|---|---|
+| ... | ... | ... |
+
+## 10. Alternativa de implementación
+### Alternativa
+...
+
+### Ventajas
+...
+
+### Riesgos
+...
+
+## 11. Decisiones humanas
+- ...
 ```
 
-Tu objetivo es aprender a **mapear el impacto antes de escribir código**.
+### 3. Revisión del plan
 
-### 1. No implementes todavía
+Copia y pega:
 
-Pide a Copilot que analice el requerimiento:
+```text
+Revisa docs/implementation-plan.md contra el requerimiento original.
 
-> Analiza este requerimiento, inspecciona el código y crea un plan detallado de implementación. No implementes todavía. Identifica cambios en modelos, endpoints, validaciones, pruebas y posibles efectos sobre compatibilidad.
+No modifiques ningún archivo.
 
-Después pide una segunda opinión:
+Devuelve una tabla con:
+- requisito;
+- dónde está cubierto en el plan;
+- evidencia;
+- qué falta, si falta.
 
-> Revisa el plan anterior como arquitecto de software. Busca supuestos ocultos, cambios innecesarios, riesgos de compatibilidad y casos de prueba que falten.
+Después indica si el plan contiene cambios innecesarios o riesgos no considerados.
+```
 
-Guarda el resultado en `docs/implementation-plan.md`.
+Aplica las correcciones necesarias al documento.
 
-### 2. Haz que el plan sea accionable
+### 4. Verificación
 
-El documento debe incluir:
-
-- modelo `Task`;
-- modelo de creación;
-- POST /tasks;
-- GET /tasks;
-- validación de `low`, `medium`, `high`;
-- estrategia de pruebas;
-- impacto en clientes existentes;
-- criterios de aceptación;
-- riesgos y rollback;
-- archivos que probablemente deberán modificarse;
-- orden recomendado de implementación.
-
-### 3. Diseña los criterios de aceptación
-
-No te limites a decir "debe funcionar".
-
-Escribe criterios verificables, por ejemplo:
-
-- una tarea con `priority=low` se crea correctamente;
-- una tarea con `priority=medium` se crea correctamente;
-- una tarea con `priority=high` se crea correctamente;
-- un valor distinto de los tres permitidos es rechazado;
-- una petición sin prioridad es rechazada;
-- `GET /tasks` devuelve la prioridad.
-
-Luego pregunta a Copilot:
-
-> ¿Puedes encontrar algún caso de aceptación ambiguo o que no sea comprobable automáticamente?
-
-### 4. Compara alternativas
-
-Pide:
-
-> Propón dos formas de representar y validar priority en FastAPI/Pydantic. Compara claridad, mantenibilidad, validación automática, extensibilidad y riesgo de errores. No cambies el código.
-
-Documenta brevemente las dos alternativas y cuál prefieres.
-
-### 5. Revisión humana
-
-Agrega una sección **Decisiones humanas** explicando:
-
-1. qué sugerencia de Copilot aceptaste;
-2. qué sugerencia cambiaste o rechazaste;
-3. por qué;
-4. qué decisión consideras demasiado importante para delegarla completamente a la IA.
-
-### 6. Pregunta de cierre
-
-Antes del commit, responde:
-
-> Si Copilot implementara exactamente su primera propuesta, ¿qué parte revisarías primero y por qué?
+```bash
+test -f docs/implementation-plan.md
+```
 
 Haz commit y push.
 
-**Tiempo sugerido: 15-17 min.**
+**Tiempo: 15-17 min.**
