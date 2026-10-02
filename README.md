@@ -1,23 +1,24 @@
 # Desarrollo asistido por IA con GitHub Copilot
 
-Laboratorio práctico para usar GitHub Copilot durante un ciclo de desarrollo real: entender, planificar, implementar, probar, depurar y colaborar.
+Laboratorio práctico para usar GitHub Copilot durante un ciclo de desarrollo real: entender, planificar, implementar, probar, depurar, preparar un Pull Request y ejercer revisión humana.
 
 ## Objetivos
 
 - Analizar una base de código con Copilot.
-- Convertir un requerimiento en un plan.
+- Convertir un requerimiento en un plan accionable.
 - Comparar alternativas de implementación.
 - Implementar una funcionalidad con Copilot Agent.
-- Diseñar pruebas y hacer debugging asistido.
+- Diseñar y revisar pruebas generadas con IA.
+- Hacer debugging asistido por IA.
 - Preparar un Pull Request y ejercer revisión humana.
 
 ## Duración
 
-**75-90 minutos.**
+**80-90 minutos.**
 
 ## Qué construirás
 
-Mejorarás una API FastAPI de tareas agregando prioridad, pruebas y una corrección de un bug de robustez.
+Mejorarás una API FastAPI de tareas agregando prioridad, pruebas y una corrección de robustez.
 
 ## Cómo empezar
 
@@ -27,11 +28,12 @@ Copia este ejercicio a tu cuenta y espera unos segundos para que GitHub prepare 
 
 ## Progresión
 
-1. Conoce y analiza el proyecto — 15 min.
-2. Convierte el requerimiento en un plan — 10-12 min.
-3. Implementa, prueba, depura y prepara el PR — 45-55 min.
-4. Revisa decisiones y evidencia — 8-10 min.
+1. Analiza el proyecto — 15-18 min.
+2. Convierte el requerimiento en un plan — 15-18 min.
+3. Implementa y prueba — 20-25 min.
+4. Depura y prepara el Pull Request — 18-22 min.
+5. Revisa decisiones y evidencia — 10-12 min.
 
 ## Regla del laboratorio
 
-Copilot propone; tú decides. Revisa el diff, ejecuta las pruebas y valida las decisiones técnicas antes de continuar.
+**Copilot propone; tú decides.** Revisa el diff, ejecuta las pruebas y valida las decisiones técnicas antes de continuar.
