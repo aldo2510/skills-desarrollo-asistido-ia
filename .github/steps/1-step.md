@@ -18,9 +18,23 @@ Copilot puede acelerar esta exploración, pero su explicación no reemplaza la l
 
 Usar Copilot para entender la aplicación antes de modificarla.
 
-### 1. Instala y ejecuta
+### 1. Abre el GitHub Codespace
 
-Abre el Codespace y ejecuta:
+En el repositorio de tu ejercicio:
+
+1. Haz clic en el botón **Code**.
+2. Selecciona la pestaña **Codespaces**.
+3. Haz clic en **Create codespace on main**.
+4. Espera a que se abra Visual Studio Code en el navegador.
+5. Si GitHub te muestra una ventana para seleccionar la máquina, utiliza la configuración predeterminada.
+
+> **Importante:** el botón **Code → Codespaces → Create codespace on main** aparece en la página del repositorio, no dentro de este documento del Step.
+
+El repositorio ya incluye un archivo `.devcontainer/devcontainer.json`, por lo que Codespaces instalará el entorno de Python y las extensiones necesarias para el laboratorio.
+
+### 2. Instala y ejecuta
+
+Dentro del Codespace, abre una terminal y ejecuta:
 
 ```bash
 pip install -r requirements.txt
@@ -29,7 +43,7 @@ pytest -q
 
 Resultado esperado: las pruebas existentes pasan.
 
-### 2. Copia y pega este prompt en Copilot Chat
+### 3. Copia y pega este prompt en Copilot Chat
 
 ```text
 Analiza este proyecto FastAPI como un ingeniero senior. No modifiques ningún archivo.
@@ -48,7 +62,7 @@ Termina con una sección llamada "Lo que Copilot dijo vs. lo que debo verificar"
 No escribas código ni hagas cambios.
 ```
 
-### 3. Crea el documento
+### 4. Crea el documento
 
 Crea `docs/project-analysis.md`.
 
@@ -108,7 +122,7 @@ Resultado:
 - ...
 ```
 
-### 4. Verificación final
+### 5. Verificación final
 
 Ejecuta:
 
