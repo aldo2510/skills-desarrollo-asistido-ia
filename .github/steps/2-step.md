@@ -4,12 +4,36 @@
 
 > Las tareas deben tener una prioridad: low, medium o high. La prioridad debe ser obligatoria al crear una tarea y debe aparecer al consultar tareas.
 
-Pide a Copilot:
+### 1. No implementes todavía
 
-> Analiza este requerimiento, inspecciona el código y crea un plan detallado de implementación. No implementes todavía.
+Pide a Copilot que analice el requerimiento y proponga una estrategia:
 
-Guarda el plan en `docs/implementation-plan.md`.
+> Analiza este requerimiento, inspecciona el código y crea un plan detallado de implementación. No implementes todavía. Identifica cambios en modelos, endpoints, validaciones, pruebas y posibles efectos sobre compatibilidad.
 
-Debe mencionar: modelo Task, modelo de creación, POST /tasks, GET /tasks, pruebas y los valores low, medium y high.
+Guarda el resultado en `docs/implementation-plan.md`.
+
+### 2. Haz que el plan sea accionable
+
+Debe incluir:
+
+- modelo `Task`;
+- modelo de creación;
+- POST /tasks;
+- GET /tasks;
+- validación de `low`, `medium`, `high`;
+- estrategia de pruebas;
+- impacto en clientes existentes;
+- criterios de aceptación;
+- riesgos y rollback.
+
+### 3. Revisión humana
+
+Agrega una sección **Decisiones humanas** explicando:
+
+1. qué sugerencia de Copilot aceptaste;
+2. qué sugerencia cambiaste o rechazaste;
+3. por qué.
 
 Haz commit y push.
+
+**Tiempo sugerido: 10-12 min.**
