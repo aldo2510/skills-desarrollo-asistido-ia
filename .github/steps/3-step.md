@@ -1,7 +1,22 @@
 ## Step 3: Implementa y prueba
 
-### Objetivo
-Implementar el plan sin escribir el código manualmente.
+### Teoría: IA generativa + revisión del desarrollador
+
+En desarrollo asistido por IA hay tres actividades diferentes:
+
+1. **Generación:** la IA propone o escribe código.
+2. **Verificación:** ejecutas tests y revisas el diff.
+3. **Decisión:** determinas si el cambio realmente cumple el requerimiento.
+
+Por eso el flujo de este paso es:
+
+```
+Plan → Agent → Diff → Tests → Revisión → Evidencia
+```
+
+La regla es sencilla:
+
+> **No confundas "el código compila" con "el requerimiento está correctamente implementado".**
 
 ### 1. Implementación con Copilot Agent
 
@@ -39,7 +54,9 @@ Revisa el diff y ejecuta:
 pytest -q
 ```
 
-### 2. Comparación de alternativas
+### 2. Compara alternativas
+
+La comparación de alternativas enseña que Copilot puede producir más de una solución válida. La decisión técnica no consiste en preguntar "¿cuál es la respuesta de la IA?", sino en comparar consecuencias.
 
 Copia y pega:
 
@@ -85,7 +102,9 @@ Crea `docs/implementation-review.md`:
 - Qué recomendación modifiqué o rechacé:
 ```
 
-### 3. Generación de pruebas
+### 3. Genera y revisa pruebas
+
+**Teoría:** una prueba útil debe fallar cuando el comportamiento requerido es incorrecto. Una assertion débil puede producir un falso sentido de seguridad.
 
 Copia y pega:
 
@@ -122,8 +141,7 @@ Crea `docs/test-strategy.md`:
 
 ## Revisión QA
 
-Copia y pega:
-
+Prompt utilizado:
 "Revisa tests/test_priority.py como QA senior. Busca assertions débiles, falsos positivos y escenarios que podrían pasar aunque la implementación estuviera incorrecta. No modifiques el archivo. Devuelve los hallazgos."
 
 Hallazgos:
@@ -133,16 +151,11 @@ Hallazgos:
 - ...
 ```
 
-### 4. Salida
+Ejecuta:
 
 ```bash
 pytest -q
 ```
-
-Deben existir:
-- docs/implementation-review.md
-- docs/test-strategy.md
-- tests/test_priority.py
 
 Haz commit y push.
 
