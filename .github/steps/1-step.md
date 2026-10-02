@@ -20,17 +20,15 @@ Usar Copilot para entender la aplicación antes de modificarla.
 
 ### 1. Abre el GitHub Codespace
 
-En el repositorio de tu ejercicio:
+Usa el siguiente botón para abrir la página **Create Codespace** en una nueva pestaña. Utiliza la configuración predeterminada.
 
-1. Haz clic en el botón **Code**.
-2. Selecciona la pestaña **Codespaces**.
-3. Haz clic en **Create codespace on main**.
-4. Espera a que se abra Visual Studio Code en el navegador.
-5. Si GitHub te muestra una ventana para seleccionar la máquina, utiliza la configuración predeterminada.
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/{{full_repo_name}}?quickstart=1)
 
-> **Importante:** el botón **Code → Codespaces → Create codespace on main** aparece en la página del repositorio, no dentro de este documento del Step.
+Espera a que se abra Visual Studio Code en el navegador y a que termine de preparar el entorno.
 
 El repositorio ya incluye un archivo `.devcontainer/devcontainer.json`, por lo que Codespaces instalará el entorno de Python y las extensiones necesarias para el laboratorio.
+
+> **Nota:** el enlace utiliza `{{full_repo_name}}`, una variable que GitHub Skills reemplaza automáticamente por el repositorio del participante cuando se publica el contenido del Step.
 
 ### 2. Instala y ejecuta
 
