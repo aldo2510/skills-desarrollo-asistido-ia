@@ -1,125 +1,175 @@
 ## Step 4: Depura y prepara el Pull Request
 
-> **Idea clave:** una IA puede encontrar un bug rápidamente, pero el aprendizaje está en demostrar cómo se reproduce, cómo se identifica la causa raíz y cómo se comprueba la corrección.
+### 1. Reproduce el bug
 
-### 1. Investiga el bug deliberado
+La función `create_task` tiene una debilidad cuando `tasks` está vacía.
 
-La función create_task tiene una debilidad: si la colección de tareas queda vacía, el cálculo del siguiente ID puede fallar.
+Copia y pega:
 
-Pide a Copilot:
+```text
+Analiza create_task en app/main.py.
 
-> Analiza create_task. ¿Qué ocurre si tasks está vacío? No corrijas todavía. Explícame cómo reproducir el problema y qué prueba de regresión debería existir.
+No corrijas el código todavía.
 
-### 2. Reproduce antes de corregir
+Explícame exactamente qué ocurre si tasks está vacía.
+Genera una prueba de regresión que reproduzca el problema, pero no la implementes todavía.
+Explica la causa probable.
+```
 
-Primero crea una prueba que reproduzca el problema.
+### 2. Crea la prueba de regresión
 
-Ejecuta únicamente esa prueba y observa el fallo.
+Copia y pega:
 
-Después pide:
+```text
+Implementa una prueba de regresión para el caso en que tasks esté vacía y create_task deba generar correctamente el siguiente ID.
 
-> Explica la causa raíz basándote en el código y en el fallo observado. Propón al menos dos correcciones posibles y compara sus riesgos.
+No corrijas todavía la implementación.
+Ejecuta únicamente esa prueba y muestra el fallo.
+```
 
-Elige una solución y revisa el diff antes de aceptarla.
+### 3. Investiga la causa raíz
 
-Vuelve a ejecutar:
+Copia y pega:
 
-    pytest -q
+```text
+Analiza el fallo de la prueba de regresión.
 
-### 3. Documenta el debugging
+No modifiques el código.
 
-Crea docs/debugging-notes.md con esta estructura:
+Explica:
+1. síntoma;
+2. reproducción;
+3. causa raíz;
+4. dos alternativas de corrección;
+5. ventajas y riesgos de cada alternativa.
 
-    # Debugging notes
+Después indica cuál alternativa tiene menor impacto sobre el comportamiento existente.
+```
 
-    ## Síntoma
-    ¿Qué fallaba?
+### 4. Corrige
 
-    ## Reproducción
-    ¿Qué pasos o prueba reproducían el fallo?
+Copia y pega:
 
-    ## Causa raíz
-    ¿Qué línea o lógica provocaba el problema?
+```text
+Corrige únicamente el bug de create_task identificado en la prueba de regresión.
 
-    ## Hipótesis descartadas
-    - ...
+Conserva el comportamiento existente.
+Ejecuta primero la prueba de regresión y después pytest -q.
 
-    ## Alternativas consideradas
-    ### Alternativa 1
-    - ...
-    ### Alternativa 2
-    - ...
+Muestra el diff y explica la corrección.
+```
 
-    ## Corrección elegida
-    - ...
+### 5. Documenta
 
-    ## Evidencia
-    - Prueba de regresión:
-    - Suite completa:
-    - Resultado:
+Crea `docs/debugging-notes.md`:
 
-    ## Verificación humana
-    ¿Cómo comprobaste que la corrección realmente resuelve el problema?
+```markdown
+# Debugging Notes
 
-### 4. Prepara el Pull Request
+## Síntoma
+...
 
-Pide a Copilot:
+## Reproducción
+...
 
-> Genera una descripción de Pull Request para este cambio usando únicamente evidencia existente en el repositorio. Incluye problema, solución, archivos modificados, pruebas ejecutadas, riesgos, rollback, decisiones humanas y limitaciones. No inventes resultados.
+## Causa raíz
+...
 
-Crea docs/pr-description.md con:
+## Hipótesis descartadas
+- ...
 
-    # Pull Request: Task Priority
+## Alternativas consideradas
+### Alternativa 1
+...
+### Alternativa 2
+...
 
-    ## Problema
-    ...
+## Corrección elegida
+...
 
-    ## Solución
-    ...
+## Evidencia
+- Prueba de regresión:
+- Suite completa:
 
-    ## Archivos modificados
-    - ...
+## Verificación humana
+...
+```
 
-    ## Pruebas ejecutadas
-    - ...
+### 6. Prepara el PR
 
-    ## Riesgos
-    - ...
+Copia y pega:
 
-    ## Rollback
-    ...
+```text
+Genera una descripción de Pull Request usando únicamente evidencia del repositorio.
 
-    ## Decisiones humanas
-    ...
+Incluye:
+- problema;
+- solución;
+- archivos modificados;
+- pruebas ejecutadas;
+- riesgos;
+- rollback;
+- decisiones humanas;
+- limitaciones.
 
-    ## Limitaciones o pendientes
-    ...
+No inventes resultados.
+```
 
-### 5. Abre el Pull Request
+Crea `docs/pr-description.md`:
 
-Crea una rama y abre un Pull Request contra main.
+```markdown
+# Pull Request: Task Priority
+
+## Problema
+...
+
+## Solución
+...
+
+## Archivos modificados
+- ...
+
+## Pruebas ejecutadas
+- ...
+
+## Riesgos
+- ...
+
+## Rollback
+...
+
+## Decisiones humanas
+...
+
+## Limitaciones
+...
+```
+
+Crea una rama, haz commit y push, y abre un Pull Request contra `main`.
 
 **No hagas merge.**
 
-Lee el diff completo como reviewer y comprueba:
+### 7. Revisión del PR
+
+Copia y pega:
+
+```text
+Revisa el Pull Request actual como un reviewer senior.
+
+Busca:
 - cambios no relacionados;
-- validaciones faltantes;
 - tests débiles;
+- validaciones faltantes;
 - comportamiento inesperado;
-- documentación que afirme algo no demostrado.
+- documentación que no tenga evidencia.
 
-Completa x-review.md solo en el siguiente paso.
+No modifiques archivos. Devuelve los hallazgos ordenados por prioridad.
+```
 
-### 6. Criterios de salida
+Corrige cualquier hallazgo y vuelve a ejecutar:
 
-- [ ] El bug fue reproducido antes de corregirlo.
-- [ ] Existe una prueba de regresión.
-- [ ] Existe docs/debugging-notes.md.
-- [ ] La suite completa pasa.
-- [ ] Existe docs/pr-description.md.
-- [ ] Existe un Pull Request abierto contra main.
-- [ ] Revisaste el diff del PR.
+```bash
+pytest -q
+```
 
-Haz commit y push.
-
-**Tiempo sugerido: 18-20 min.**
+**Tiempo: 18-20 min.**
