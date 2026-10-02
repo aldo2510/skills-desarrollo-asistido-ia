@@ -122,4 +122,4 @@ Completa x-review.md solo en el siguiente paso.
 
 Haz commit y push.
 
-**Tiempo sugerido: 18-22 min.**
+**Tiempo sugerido: 18-20 min.**
