@@ -1,10 +1,19 @@
 name: Step 4
 
 on:
+  push:
+    paths:
+      - "docs/debugging-notes.md"
+      - "docs/pr-description.md"
+      - "tests/**"
+      - "app/**"
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   actions: write
   issues: write
   pull-requests: read
@@ -14,14 +23,17 @@ env:
 
 jobs:
   find_exercise:
+    if: ${{ !github.event.repository.is_template }}
+    name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.9.1
 
   check_step_work:
+    name: Validate debugging and Pull Request
     needs: [find_exercise]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Validate debugging and PR evidence
+      - name: Validate evidence
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -33,6 +45,7 @@ jobs:
           pytest -q
 
   post_next_step_content:
+    name: Post Step 5
     needs: [find_exercise, check_step_work]
     runs-on: ubuntu-latest
     env:
@@ -62,8 +75,9 @@ jobs:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
           file: exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
-      - run: |
-          gh workflow disable "${{github.workflow}}"
+      - name: Enable Step 5
+        run: |
+          gh workflow disable "${{ github.workflow }}"
           gh workflow enable "Step 5"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
