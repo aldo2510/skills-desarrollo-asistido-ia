@@ -1,16 +1,16 @@
 # Desarrollo asistido por IA con GitHub Copilot
 
-Laboratorio práctico para usar GitHub Copilot durante un ciclo de desarrollo real: **analizar, planificar, implementar, probar, depurar, preparar un Pull Request y ejercer revisión humana**.
+Laboratorio práctico guiado para usar GitHub Copilot durante un ciclo completo de desarrollo: **entender, planificar, implementar, probar, depurar, revisar y documentar**.
 
 ## Qué aprenderás
 
-- Analizar una base de código con Copilot sin delegar ciegamente la comprensión.
-- Convertir un requerimiento funcional en un plan técnico verificable.
-- Comparar alternativas de implementación.
-- Implementar una funcionalidad con Copilot Agent.
-- Diseñar y revisar pruebas generadas con IA.
-- Hacer debugging basado en reproducción, causa raíz y prueba de regresión.
-- Preparar un Pull Request con evidencia.
+- Analizar una base de código con IA.
+- Convertir un requerimiento en un plan técnico.
+- Implementar con Copilot Agent.
+- Diseñar y revisar pruebas.
+- Hacer debugging basado en evidencia.
+- Preparar y revisar un Pull Request.
+- Documentar decisiones técnicas.
 - Mantener al desarrollador como responsable de la decisión final.
 
 ## Qué construirás
@@ -21,7 +21,7 @@ Mejorarás una API FastAPI de tareas agregando:
 - validaciones;
 - pruebas;
 - una corrección de robustez;
-- documentación técnica y evidencia de revisión.
+- documentación y evidencia de revisión.
 
 ## Cómo empezar
 
@@ -35,15 +35,22 @@ Mejorarás una API FastAPI de tareas agregando:
 
 ## Duración
 
-**80-90 minutos.**
+**90-110 minutos.**
 
-## Progresión
+## Progresión — 10 Steps
 
-1. Analiza el proyecto — 15-17 min.
-2. Convierte el requerimiento en un plan — 15-17 min.
-3. Implementa y prueba — 22-24 min.
-4. Depura y prepara el Pull Request — 18-20 min.
-5. Revisión final — 10-12 min.
+1. Analiza el proyecto — 10-12 min.
+2. Convierte el requerimiento en un plan — 10-12 min.
+3. Implementa con Copilot Agent — 12-15 min.
+4. Diseña la estrategia de pruebas — 10-12 min.
+5. Depura un fallo real — 12-15 min.
+6. Prepara el Pull Request — 8-10 min.
+7. Haz code review asistido por IA — 8-10 min.
+8. Documenta decisiones técnicas — 6-8 min.
+9. Ejecuta la validación final — 7-8 min.
+10. Reflexión y control humano — 8-10 min.
+
+**Total orientativo: 91-112 minutos**, dependiendo de la velocidad de ejecución y revisión.
 
 ## Entregables
 
@@ -57,6 +64,9 @@ Al finalizar tendrás:
 - `tests/test_empty_tasks.py`
 - `docs/debugging-notes.md`
 - `docs/pr-description.md`
+- `docs/code-review.md`
+- `docs/technical-decisions.md`
+- `docs/final-validation.md`
 - `x-review.md`
 - un Pull Request abierto contra `main`
 
@@ -64,4 +74,6 @@ Al finalizar tendrás:
 
 **Copilot propone; tú decides.**
 
-No se considera terminada una actividad solamente porque Copilot generó una respuesta. Debes revisar el código, comprobar la evidencia y validar el resultado antes de continuar.
+Las instrucciones están preparadas para copiar y pegar. El objetivo no es que el alumno pierda tiempo inventando prompts, sino experimentar el ciclo real:
+
+**prompt → ejecución → revisión → evidencia → decisión humana.**
