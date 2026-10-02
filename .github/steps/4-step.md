@@ -1,20 +1,18 @@
-# Step 4 — Diseña una estrategia de pruebas y depura con evidencia
+# Step 4 — Diseña pruebas y depura con evidencia
 
-## Teoría
-Una prueba demuestra comportamiento. Una depuración demuestra causa. No aceptes una explicación de IA sin reproducir el problema.
+## Objetivo
+Distinguir entre una hipótesis generada por IA y un problema realmente reproducible.
 
 ## 1. Prompt para diseñar pruebas
 ~~~text
 Revisa la implementación actual de priority.
-
 No modifiques archivos.
-
-Identifica qué comportamientos deben probarse y qué casos límite podrían fallar.
-Relaciona cada caso con un endpoint y un resultado HTTP esperado.
-No escribas código.
+Identifica casos normales, inválidos, ausentes y límites.
+Para cada caso indica entrada, endpoint, resultado HTTP esperado y riesgo de regresión.
 ~~~
 
 ## 2. Crea docs/test-strategy.md
+
 ~~~markdown
 # Test Strategy
 
@@ -31,78 +29,89 @@ Validar el contrato de priority y preservar el comportamiento existente.
 | ausente | sin priority | 422 |
 | listado | GET /tasks | priority presente |
 | regresión | suite existente | todo pasa |
+| colección vacía | POST /tasks sin tareas | creación correcta |
 
-## Evidencia
-Comando:
+## Ejecución
 ~~~bash
 pytest -q
 ~~~
 
-La salida real de pytest debe revisarse antes de continuar.
+## Criterio de salida
+No continuar mientras exista una prueba fallida.
 ~~~
 
-## 3. Depura el caso de lista vacía
-Primero reproduce la situación:
-
-~~~text
-Si el código actual usa max(task.id for task in tasks), una lista vacía puede producir ValueError.
-~~~
-
-Pide a Copilot:
-
+## 3. Analiza el caso de colección vacía
 ~~~text
 Analiza app/main.py.
-
-No modifiques archivos todavía.
-
+No modifiques archivos.
 Determina si la generación del ID funciona cuando tasks está vacía.
 Explica si existe una excepción posible, cómo reproducirla y cuál es la causa exacta.
 No escribas código.
 ~~~
 
-## 4. Crea la prueba
-Crea tests/test_empty_tasks.py con una prueba que documente el comportamiento esperado de generación de ID cuando no hay tareas. Usa el mismo patrón de TestClient y modifica temporalmente el estado de forma segura.
+## 4. Crea tests/test_empty_tasks.py
+
+~~~python
+from fastapi.testclient import TestClient
+from app.main import app, tasks
+
+client = TestClient(app)
+
+def test_create_task_when_collection_is_empty():
+    original_tasks = list(tasks)
+    tasks.clear()
+    try:
+        response = client.post(
+            "/tasks",
+            json={"title": "First task", "priority": "medium"},
+        )
+        assert response.status_code == 201
+        assert response.json()["id"] == 1
+    finally:
+        tasks.extend(original_tasks)
+~~~
 
 ## 5. Corrige con Copilot
 ~~~text
 Ahora implementa la corrección mínima para que crear una tarea funcione cuando tasks está vacía.
-
 No cambies otros comportamientos.
-Agrega o ajusta la prueba que reproduce el problema.
-Ejecuta pytest -q.
-Explica la causa y la corrección.
+Mantén la prueba que reproduce el problema.
+Ejecuta pytest -q y explica causa, corrección y evidencia.
 ~~~
 
 ## 6. Crea docs/debugging-notes.md
+
 ~~~markdown
 # Debugging Notes
 
 ## Problema
-Generación de ID cuando no existen tareas.
+Generación del primer ID cuando no existen tareas.
 
 ## Síntoma
-La operación puede fallar si se calcula el máximo de una colección vacía.
+La creación puede fallar si se calcula el máximo de una colección vacía.
 
 ## Causa
-La expresión utilizada no contempla correctamente el caso sin elementos.
+La lógica de generación del ID debe contemplar explícitamente el caso sin elementos.
 
 ## Reproducción
-La prueba tests/test_empty_tasks.py reproduce el escenario.
+tests/test_empty_tasks.py vacía temporalmente la colección y ejecuta POST /tasks.
 
 ## Corrección
-Se aplicó el cambio mínimo necesario y se verificó con pytest.
+Se aplicó únicamente el cambio necesario para soportar la colección vacía.
 
 ## Evidencia
 ~~~bash
 pytest -q
 ~~~
+
+## Decisión
+No se modificaron otros comportamientos de la API.
 ~~~
 
 ## 7. Verificación
 ~~~bash
 test -f docs/debugging-notes.md
 test -f tests/test_empty_tasks.py
-grep -Eiq 'causa|reprodu' docs/debugging-notes.md
 pytest -q
 ~~~
 
@@ -111,5 +120,4 @@ pytest -q
 git add app tests docs
 git commit -m "test: cover empty task collection"
 git push
-~~~
-**Tiempo sugerido: 12–15 min.**
+~~
