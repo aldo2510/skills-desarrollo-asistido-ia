@@ -98,4 +98,4 @@ Antes del commit, responde:
 
 Haz commit y push.
 
-**Tiempo sugerido: 15-18 min.**
+**Tiempo sugerido: 15-17 min.**
