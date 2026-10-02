@@ -33,7 +33,7 @@ Explica la causa probable.
 Copia y pega:
 
 ```text
-Implementa una prueba de regresión para el caso en que tasks esté vacía y create_task deba generar correctamente el siguiente ID.
+Implementa la prueba de regresión en `tests/test_empty_tasks.py` para el caso en que tasks esté vacía y create_task deba generar correctamente el siguiente ID.
 
 No corrijas todavía la implementación.
 Ejecuta únicamente esa prueba y muestra el fallo.
