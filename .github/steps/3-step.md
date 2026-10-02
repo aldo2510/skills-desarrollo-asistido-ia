@@ -113,4 +113,4 @@ Crea docs/test-strategy.md con esta estructura:
 
 Haz commit y push.
 
-**Tiempo sugerido: 20-25 min.**
+**Tiempo sugerido: 22-24 min.**
