@@ -1,93 +1,111 @@
 ## Step 2: Convierte el requerimiento en un plan
 
-> **Idea clave:** una buena interacción con IA no empieza con “hazlo”. Empieza con contexto, restricciones, criterios de aceptación y una decisión explícita sobre qué se quiere construir.
+### Teoría: de requerimiento a diseño técnico
+
+Un requerimiento funcional describe **qué necesita el usuario**; un plan técnico explica **qué partes del sistema deben cambiar para cumplirlo**.
+
+Una buena planificación asistida por IA conecta:
+
+```
+Requerimiento → impacto → alternativas → criterios de aceptación → pruebas → implementación
+```
+
+La ventaja de hacer esto antes de programar es reducir cambios innecesarios y detectar incompatibilidades temprano.
+
+En este laboratorio no necesitas inventar el análisis: usarás prompts preparados y después verificarás el resultado.
 
 ### Requerimiento
 
-> Las tareas deben tener una prioridad: `low`, `medium` o `high`. La prioridad debe ser obligatoria al crear una tarea y debe aparecer al consultar tareas.
+Agregar prioridad a las tareas.
 
-### ¿Qué vas a practicar?
+Reglas:
+- valores permitidos: `low`, `medium`, `high`;
+- la prioridad es obligatoria al crear una tarea;
+- `GET /tasks` debe devolverla;
+- las pruebas deben cubrir los nuevos escenarios;
+- no cambiar funcionalidades que no estén relacionadas.
 
-En este paso todavía **no vas a implementar código**. Vas a usar Copilot para transformar un requerimiento funcional en un plan técnico verificable.
-
-El flujo es:
+### 1. Copia y pega este prompt en Copilot
 
 ```text
-Requerimiento
-    ↓
-Impacto técnico
-    ↓
-Alternativas
-    ↓
-Criterios de aceptación
-    ↓
-Plan de implementación
-    ↓
-Revisión humana
+Analiza el requerimiento de agregar priority a Task.
+
+Requerimiento:
+- priority debe aceptar únicamente low, medium o high;
+- priority es obligatoria al crear una tarea;
+- GET /tasks debe devolver priority;
+- debemos agregar pruebas;
+- no debemos cambiar funcionalidades no relacionadas.
+
+Inspecciona el repositorio y genera un plan de implementación.
+No modifiques archivos.
+
+Incluye:
+1. archivos que habría que modificar;
+2. archivos que habría que crear;
+3. cambios en modelos;
+4. cambios en endpoints;
+5. estrategia de validación;
+6. pruebas necesarias;
+7. riesgos;
+8. criterios de aceptación;
+9. una alternativa de implementación y sus ventajas y riesgos;
+10. decisiones que requieren revisión humana.
 ```
 
-### 1. Pide un primer plan a Copilot
+### 2. Pide una revisión del plan
 
-Usa:
+```text
+Revisa el plan anterior como arquitecto de software.
 
-> Analiza este requerimiento, inspecciona el código y crea un plan detallado de implementación. No implementes todavía. Identifica cambios en modelos, endpoints, validaciones, pruebas y posibles efectos sobre compatibilidad.
+No modifiques archivos.
 
-Después pide una segunda revisión:
+Busca:
+- supuestos ocultos;
+- cambios innecesarios;
+- riesgos de compatibilidad;
+- validaciones faltantes;
+- pruebas faltantes.
 
-> Revisa el plan anterior como arquitecto de software. Busca supuestos ocultos, cambios innecesarios, riesgos de compatibilidad y casos de prueba que falten. No cambies ningún archivo.
+Devuelve una lista concreta de ajustes.
+```
 
-### 2. Compara alternativas antes de decidir
+### 3. Crea el documento
 
-Pregunta:
+Crea `docs/implementation-plan.md`.
 
-> Propón dos formas de representar y validar priority en FastAPI/Pydantic. Compara claridad, mantenibilidad, validación automática, extensibilidad y riesgo de errores. No cambies el código.
-
-No necesitas elegir lo que Copilot recomiende. Debes justificar tu decisión.
-
-### 3. Crea `docs/implementation-plan.md`
-
-**El archivo no existe inicialmente. Debes crearlo.**
-
-Copia esta plantilla y complétala con información de este proyecto:
+**Copia esta plantilla:**
 
 ```markdown
-# Plan de implementación: prioridad de tareas
+# Implementation Plan
 
 ## 1. Requerimiento
-
-Resume el cambio solicitado en tus propias palabras.
+...
 
 ## 2. Estado actual
-
-Explica cómo funciona hoy:
-- Task;
-- TaskCreate;
-- POST /tasks;
-- GET /tasks;
-- validaciones actuales;
-- pruebas relacionadas.
+- Task:
+- TaskCreate:
+- POST /tasks:
+- GET /tasks:
+- Validaciones:
+- Pruebas:
 
 ## 3. Impacto técnico
-
-| Componente | Cambio esperado | Motivo |
+| Componente | Cambio | Motivo |
 |---|---|---|
 | Task | ... | ... |
 | TaskCreate | ... | ... |
 | POST /tasks | ... | ... |
 | GET /tasks | ... | ... |
-| Pruebas | ... | ... |
+| Tests | ... | ... |
 
-## 4. Archivos que probablemente cambiarán
+## 4. Archivos a modificar
+- ...
 
-| Archivo | Cambio previsto |
-|---|---|
-| app/main.py | ... |
-| tests/... | ... |
+## 5. Archivos a crear
+- ...
 
-Agrega otros archivos solo si realmente son necesarios.
-
-## 5. Alternativas consideradas
-
+## 6. Alternativas
 ### Alternativa A
 - Descripción:
 - Ventajas:
@@ -98,96 +116,72 @@ Agrega otros archivos solo si realmente son necesarios.
 - Ventajas:
 - Riesgos:
 
-## 6. Decisión de diseño
-
-- Alternativa elegida:
+## 7. Decisión
+- Opción elegida:
 - Motivo:
 - Qué recomendó Copilot:
 - Qué decidí yo:
 
-## 7. Criterios de aceptación
-
-Incluye como mínimo:
-
-- [ ] Una tarea con priority=low se crea correctamente.
-- [ ] Una tarea con priority=medium se crea correctamente.
-- [ ] Una tarea con priority=high se crea correctamente.
-- [ ] Un valor distinto de low/medium/high es rechazado.
-- [ ] Una petición sin priority es rechazada.
+## 8. Criterios de aceptación
+- [ ] low funciona.
+- [ ] medium funciona.
+- [ ] high funciona.
+- [ ] valor inválido es rechazado.
+- [ ] priority ausente es rechazada.
 - [ ] GET /tasks devuelve priority.
 
-Agrega cualquier otro criterio que consideres necesario.
-
-## 8. Estrategia de pruebas
-
-| Escenario | Tipo de prueba | Resultado esperado |
+## 9. Estrategia de pruebas
+| Escenario | Tipo | Resultado esperado |
 |---|---|---|
 | low | ... | ... |
 | medium | ... | ... |
 | high | ... | ... |
-| valor inválido | ... | ... |
-| campo ausente | ... | ... |
-| consulta GET | ... | ... |
+| inválida | ... | ... |
+| ausente | ... | ... |
+| GET /tasks | ... | ... |
 
-## 9. Compatibilidad
+## 10. Compatibilidad
+...
 
-Explica:
-- qué podría ocurrir con clientes que hoy crean tareas sin priority;
-- si el cambio es backward compatible;
-- qué decisión tomarías en un sistema real.
+## 11. Riesgos y mitigaciones
+...
 
-## 10. Riesgos
+## 12. Rollback
+...
 
-| Riesgo | Impacto | Mitigación |
-|---|---|---|
-| ... | ... | ... |
-| ... | ... | ... |
-
-## 11. Rollback
-
-Explica cómo revertirías el cambio si genera problemas.
-
-## 12. Orden de implementación
-
+## 13. Orden de implementación
 1. ...
 2. ...
 3. ...
 4. ...
 
-## 13. Decisiones humanas
+## 14. Decisiones humanas
+- ...
 
-### Sugerencia de Copilot que acepté
+## 15. Pregunta de revisión
 ...
-
-### Sugerencia que modifiqué o rechacé
-...
-
-### Motivo
-...
-
-### Decisión que no delegaría completamente a la IA
-...
-
-## 14. Pregunta de revisión
-
-Si Copilot implementara exactamente su primera propuesta, ¿qué parte revisarías primero y por qué?
 ```
 
-### 4. Revisa la calidad del plan
+### 4. Verifica el plan
 
-Antes de hacer commit, comprueba:
+Copia y pega:
 
-- [ ] El plan describe el estado actual antes del cambio.
-- [ ] Identifica los componentes afectados.
-- [ ] Incluye al menos dos alternativas.
-- [ ] Define criterios de aceptación verificables.
-- [ ] Define una estrategia de pruebas.
-- [ ] Considera compatibilidad.
-- [ ] Incluye riesgos y mitigaciones.
-- [ ] Incluye rollback.
-- [ ] Explica decisiones humanas.
-- [ ] Todavía no modificaste la implementación.
+```text
+Revisa docs/implementation-plan.md contra el requerimiento original.
+
+No modifiques archivos.
+
+Devuelve una tabla:
+- requisito;
+- dónde está cubierto;
+- evidencia;
+- qué falta.
+
+Después indica si existe algún cambio innecesario.
+```
+
+Aplica las correcciones.
 
 Haz commit y push.
 
-**Tiempo sugerido: 15-17 min.**
+**Tiempo: 15-17 min.**
