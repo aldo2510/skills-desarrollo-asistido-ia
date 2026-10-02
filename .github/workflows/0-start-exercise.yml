@@ -2,10 +2,6 @@ name: Step 0 # Start Exercise
 
 on:
   workflow_dispatch:
-  # NOTE: Make sure the repository is a template before enabling this trigger.
-  # push:
-  #   branches:
-  #     - main
 
 permissions:
   contents: write
@@ -17,13 +13,12 @@ env:
 
 jobs:
   start_exercise:
-    if: |
-      !github.event.repository.is_template
+    if: "!github.event.repository.is_template"
     name: Start Exercise
     uses: skills/exercise-toolkit/.github/workflows/start-exercise.yml@v0.9.1
     with:
-      exercise-title: "(replace-me: Exercise title)"
-      intro-message: "(replace-me: Brief one line introduction message for the exercise)"
+      exercise-title: "Desarrollo asistido por IA con GitHub Copilot"
+      intro-message: "Aprende a usar Copilot para entender, planificar, implementar, probar y depurar una funcionalidad real."
 
   post_next_step_content:
     name: Post next step content
@@ -32,22 +27,14 @@ jobs:
     env:
       ISSUE_NUMBER: ${{ needs.start_exercise.outputs.issue-number }}
       ISSUE_REPOSITORY: ${{ github.repository }}
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          ref: main
-
-      - name: Get response templates
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
           ref: v0.9.1
-
-      - name: Create comment - add step content
-        uses: GrantBirki/comment@v2.1.1
+      - uses: GrantBirki/comment@v2.1.1
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
@@ -55,16 +42,11 @@ jobs:
           vars: |
             login: ${{ github.actor }}
             full_repo_name: ${{ github.repository }}
-
-      - name: Create comment - watching for progress
-        uses: GrantBirki/comment@v2.1.1
+      - uses: GrantBirki/comment@v2.1.1
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
           file: exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
-
-      - name: Enable next step workflow
-        run: |
-          gh workflow enable "Step 1"
+      - run: gh workflow enable "Step 1"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
