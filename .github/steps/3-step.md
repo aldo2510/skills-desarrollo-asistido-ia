@@ -6,10 +6,6 @@ Pide a Copilot:
 
 Revisa el diff antes de aceptarlo.
 
-Debes conseguir:
-- campo priority en Task;
-- prioridad al crear;
-- prioridad al consultar;
-- valores low, medium y high.
+Debes conseguir: campo priority en Task, prioridad al crear y consultar, y valores low, medium y high.
 
 Haz commit y push.
