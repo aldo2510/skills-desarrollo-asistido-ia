@@ -1,10 +1,16 @@
 name: Step 3
 
 on:
+  push:
+    paths:
+      - "app/**"
+      - "tests/test_priority.py"
+      - "docs/implementation-review.md"
+      - "docs/test-strategy.md"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   actions: write
   issues: write
 
@@ -13,14 +19,17 @@ env:
 
 jobs:
   find_exercise:
+    if: ${{ !github.event.repository.is_template }}
+    name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.9.1
 
   check_step_work:
+    name: Validate implementation and tests
     needs: [find_exercise]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Validate implementation and tests
+      - name: Validate implementation
         run: |
           test -f docs/implementation-review.md
           test -f docs/test-strategy.md
@@ -30,6 +39,7 @@ jobs:
           pytest -q
 
   post_next_step_content:
+    name: Post Step 4
     needs: [find_exercise, check_step_work]
     runs-on: ubuntu-latest
     env:
@@ -59,8 +69,9 @@ jobs:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
           file: exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
-      - run: |
-          gh workflow disable "${{github.workflow}}"
+      - name: Enable Step 4
+        run: |
+          gh workflow disable "${{ github.workflow }}"
           gh workflow enable "Step 4"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
