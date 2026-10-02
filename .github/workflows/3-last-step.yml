@@ -7,36 +7,30 @@ permissions:
   contents: read
   actions: write
   issues: write
-  pull-requests: read
 
 env:
-  REVIEW_FILE: ".github/steps/x-review.md"
+  STEP_FILE: ".github/steps/4-step.md"
 
 jobs:
   find_exercise:
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.9.1
 
-  check_final_work:
+  check_step_work:
     needs: [find_exercise]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Validate final evidence
+      - name: Validate implementation and tests
         run: |
           test -f docs/implementation-review.md
+          test -f docs/test-strategy.md
           test -f tests/test_priority.py
-          test -f docs/debugging-notes.md
-          test -f docs/pr-description.md
-          test -f x-review.md
+          grep -Eiq 'low|medium|high' tests/test_priority.py
           python -m pip install -r requirements.txt
           pytest -q
-      - name: Validate Pull Request
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: test "$(gh pr list --base main --state open --json number --jq 'length')" -ge 1
 
-  post_review_content:
-    needs: [find_exercise, check_final_work]
+  post_next_step_content:
+    needs: [find_exercise, check_step_work]
     runs-on: ubuntu-latest
     env:
       ISSUE_REPOSITORY: ${{ github.repository }}
@@ -52,19 +46,21 @@ jobs:
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
-          file: exercise-toolkit/markdown-templates/lesson-review.md
+          file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
+          vars: |
+            next_step_number: 4
       - uses: GrantBirki/comment@v2.1.1
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
-          file: ${{ env.REVIEW_FILE }}
-      - run: gh workflow disable "${{github.workflow}}"
+          file: ${{ env.STEP_FILE }}
+      - uses: GrantBirki/comment@v2.1.1
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          file: exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
+      - run: |
+          gh workflow disable "${{github.workflow}}"
+          gh workflow enable "Step 4"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  finish_exercise:
-    needs: [find_exercise, post_review_content]
-    uses: skills/exercise-toolkit/.github/workflows/finish-exercise.yml@v0.9.1
-    with:
-      issue-url: ${{ needs.find_exercise.outputs.issue-url }}
-      exercise-title: "Desarrollo asistido por IA con GitHub Copilot"
