@@ -10,12 +10,6 @@ Pide a Copilot:
 
 Guarda el plan en `docs/implementation-plan.md`.
 
-Debe mencionar:
-- modelo Task;
-- modelo de creación;
-- POST /tasks;
-- GET /tasks;
-- pruebas;
-- low, medium y high.
+Debe mencionar: modelo Task, modelo de creación, POST /tasks, GET /tasks, pruebas y los valores low, medium y high.
 
 Haz commit y push.
