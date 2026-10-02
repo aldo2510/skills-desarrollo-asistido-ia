@@ -1,228 +1,107 @@
-## Step 1: Conoce el código con Copilot
+## Step 1: Analiza el proyecto
 
-> **Idea clave:** antes de pedirle a una IA que cambie código, necesitas construir tu propio modelo mental del sistema. Copilot puede acelerar la exploración, pero no sustituye la lectura del código ni la verificación de sus respuestas.
+### Objetivo
+Usar Copilot para entender la aplicación antes de modificarla.
 
-### ¿Qué vas a practicar?
+### 1. Instala y ejecuta
 
-En este paso aprenderás a usar IA para **comprender un proyecto existente**. No vas a implementar funcionalidades todavía.
-
-Vas a practicar este ciclo:
-
-```text
-Preguntar a Copilot
-      ↓
-Observar su explicación
-      ↓
-Comprobarla contra el código
-      ↓
-Detectar diferencias
-      ↓
-Documentar lo aprendido
-```
-
-### 1. Abre el entorno
-
-Abre el repositorio en Codespaces:
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/{{full_repo_name}}?quickstart=1)
-
-Ejecuta:
+Abre el Codespace y ejecuta:
 
 ```bash
 pip install -r requirements.txt
 pytest -q
 ```
 
-**Antes de continuar**, confirma que las pruebas pasan.
+Resultado esperado: las pruebas existentes pasan.
 
-Anota:
-- cuántas pruebas pasan;
-- qué endpoints ya están cubiertos;
-- qué comportamiento parece no estar cubierto.
-
-### 2. Explora el proyecto con Copilot
-
-Usa Copilot Chat en modo Agent con los siguientes prompts.
-
-#### Prompt 1 — Arquitectura
-
-> Analiza este proyecto como un developer senior. Explica la arquitectura, los archivos principales, la responsabilidad de cada archivo, los endpoints disponibles, los modelos de datos y cómo se ejecutan las pruebas. No cambies ningún archivo.
-
-#### Prompt 2 — Flujo de una petición
-
-> Sigue paso a paso qué ocurre cuando un cliente realiza POST /tasks. Identifica el modelo de entrada, la función que procesa la petición, cómo se genera el ID, cómo se almacena la tarea y qué respuesta recibe el cliente. No cambies ningún archivo.
-
-#### Prompt 3 — Persistencia
-
-> Analiza cómo se almacenan actualmente las tareas. ¿Existe una base de datos? ¿Qué ocurre cuando la aplicación se reinicia? ¿Qué ventajas y limitaciones tiene esta estrategia para un entorno real?
-
-#### Prompt 4 — Riesgos
-
-> ¿Qué riesgos técnicos ves si agregamos un nuevo atributo obligatorio al recurso Task? Considera compatibilidad, validación, pruebas y clientes existentes.
-
-### 3. Verifica las respuestas de Copilot
-
-Ahora **no copies directamente las respuestas de Copilot**.
-
-Abre `app/main.py` y comprueba cada afirmación importante.
-
-Busca deliberadamente:
-
-- una afirmación de Copilot que sea correcta;
-- una explicación que sea incompleta;
-- una afirmación que necesite un matiz;
-- algún detalle que Copilot no haya mencionado.
-
-> **Regla del laboratorio:** una explicación de IA no se considera evidencia hasta que puedas señalar dónde se demuestra en el código.
-
-### 4. Documenta el análisis
-
-Ahora sí debes crear el archivo:
+### 2. Copia y pega este prompt en Copilot Chat
 
 ```text
-docs/project-analysis.md
+Analiza este proyecto FastAPI como un ingeniero senior. No modifiques ningún archivo.
+
+Explícame:
+1. La arquitectura y responsabilidad de cada archivo.
+2. Los endpoints existentes, método HTTP, entrada y respuesta.
+3. Los modelos Task y TaskCreate y sus campos.
+4. Cómo se almacena actualmente la información.
+5. Cómo se ejecutan las pruebas.
+6. El flujo completo de POST /tasks.
+7. El flujo completo de PATCH /tasks/{task_id}.
+8. Al menos 2 riesgos o decisiones técnicas que debería conocer antes de modificar el proyecto.
+
+Termina con una sección llamada "Lo que Copilot dijo vs. lo que debo verificar" con al menos 3 verificaciones concretas.
+No escribas código ni hagas cambios.
 ```
 
-**El archivo NO existe inicialmente. Tú debes crearlo.**
+### 3. Crea el documento
 
-No necesitas inventar información. Debes completar el documento a partir de lo que encontraste en el código y de las conversaciones con Copilot.
+Crea `docs/project-analysis.md`.
 
-#### Usa esta estructura obligatoria
-
-Copia esta plantilla y completa cada sección:
+**Copia y pega esta estructura y complétala usando la respuesta de Copilot y verificando los datos en el código:**
 
 ```markdown
-# Análisis del proyecto
+# Project Analysis
 
-## 1. Resumen del proyecto
-
-Explica en 3-5 líneas qué hace la aplicación y cuál es su propósito.
-
-## 2. Arquitectura y archivos principales
-
-Describe qué responsabilidad tiene cada archivo relevante.
-
-Ejemplo de tabla:
-
+## 1. Arquitectura
 | Archivo | Responsabilidad |
 |---|---|
 | app/main.py | ... |
+| tests/test_api.py | ... |
 | requirements.txt | ... |
-| tests/... | ... |
 
-## 3. Endpoints existentes
-
-Documenta cada endpoint actual.
-
-| Método | Endpoint | Propósito | Respuesta |
+## 2. Endpoints
+| Método | Endpoint | Entrada | Respuesta |
 |---|---|---|---|
 | GET | /health | ... | ... |
 | GET | /tasks | ... | ... |
 | POST | /tasks | ... | ... |
 | PATCH | /tasks/{task_id} | ... | ... |
 
-## 4. Modelos de datos
-
-Explica:
-
+## 3. Modelos
 ### Task
-
-- campos;
-- tipos;
-- valores por defecto;
-- propósito.
+- ...
 
 ### TaskCreate
+- ...
 
-- campos;
-- tipos;
-- validaciones;
-- propósito.
+## 4. Persistencia actual
+...
 
-## 5. Persistencia actual
+## 5. Ejecución de pruebas
+```bash
+pytest -q
+```
+Resultado:
+...
 
-Explica:
+## 6. Riesgos o decisiones técnicas
+1. ...
+2. ...
 
-- dónde se almacenan las tareas;
-- durante cuánto tiempo permanecen;
-- qué ocurre al reiniciar la aplicación;
-- ventajas;
-- limitaciones.
+## 7. Lo que Copilot dijo vs. lo que verifiqué
+| Afirmación de Copilot | Cómo la verifiqué | Resultado |
+|---|---|---|
+| ... | ... | ... |
+| ... | ... | ... |
+| ... | ... | ... |
 
-## 6. Estrategia actual de pruebas
+## 8. Información de Copilot verificada manualmente
+- ...
+- ...
 
-Explica:
-
-- qué framework se utiliza;
-- cómo se ejecutan las pruebas;
-- qué endpoints están cubiertos;
-- qué escenarios importantes están cubiertos;
-- qué escenarios parecen faltar.
-
-## 7. Riesgos o decisiones técnicas detectadas con ayuda de IA
-
-Documenta **al menos 2**.
-
-Para cada uno:
-
-### Riesgo/decisión 1
-
-- Qué identificó Copilot:
-- Evidencia encontrada en el código:
-- Por qué importa:
-- Mi conclusión:
-
-### Riesgo/decisión 2
-
-- Qué identificó Copilot:
-- Evidencia encontrada en el código:
-- Por qué importa:
-- Mi conclusión:
-
-## 8. Lo que Copilot dijo vs. lo que verifiqué
-
-Incluye **al menos 3 observaciones**.
-
-| # | Copilot dijo | Lo que verifiqué en el código | Resultado |
-|---|---|---|---|
-| 1 | ... | ... | Correcto / Incompleto / Incorrecto |
-| 2 | ... | ... | Correcto / Incompleto / Incorrecto |
-| 3 | ... | ... | Correcto / Incompleto / Incorrecto |
-
-## 9. Información de Copilot que verifiqué manualmente
-
-Explica qué partes de las respuestas decidiste comprobar directamente en el código y cómo las comprobaste.
-
-## 10. Pregunta técnica abierta
-
-Escribe al menos una pregunta que haya quedado sin resolver y que investigarías antes de evolucionar el proyecto.
-
-## 11. Reflexión
-
-Responde:
-
-1. ¿Qué parte de la exploración fue más rápida con IA?
-2. ¿Qué parte fue más fácil entender leyendo directamente el código?
-3. ¿Qué error podría haber ocurrido si hubieras confiado ciegamente en Copilot?
+## 9. Pregunta técnica abierta
+- ...
 ```
 
-**Importante:** las respuestas deben estar basadas en este repositorio. No copies respuestas genéricas de Internet ni inventes componentes que no existen.
+### 4. Verificación final
 
-### 5. Revisión final antes del commit
+Ejecuta:
 
-Antes de hacer commit, comprueba:
-
-- [ ] `docs/project-analysis.md` existe.
-- [ ] Describe los archivos reales del proyecto.
-- [ ] Documenta los 4 endpoints actuales.
-- [ ] Explica `Task` y `TaskCreate`.
-- [ ] Explica cómo funciona la persistencia.
-- [ ] Explica cómo se ejecutan las pruebas.
-- [ ] Incluye al menos 2 riesgos o decisiones técnicas.
-- [ ] Incluye 3 comparaciones entre Copilot y el código real.
-- [ ] Incluye una pregunta técnica abierta.
-- [ ] Incluye la reflexión final.
+```bash
+test -f docs/project-analysis.md
+pytest -q
+```
 
 Haz commit y push.
 
-**Tiempo sugerido: 15-17 min.**
+**Tiempo: 15-17 min.**
