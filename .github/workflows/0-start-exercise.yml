@@ -2,6 +2,9 @@ name: Step 0 # Start Exercise
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -13,7 +16,7 @@ env:
 
 jobs:
   start_exercise:
-    if: "!github.event.repository.is_template"
+    if: ${{ !github.event.repository.is_template }}
     name: Start Exercise
     uses: skills/exercise-toolkit/.github/workflows/start-exercise.yml@v0.9.1
     with:
@@ -28,13 +31,18 @@ jobs:
       ISSUE_NUMBER: ${{ needs.start_exercise.outputs.issue-number }}
       ISSUE_REPOSITORY: ${{ github.repository }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: main
+      - name: Get response templates
+        uses: actions/checkout@v6
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
           ref: v0.9.1
-      - uses: GrantBirki/comment@v2.1.1
+      - name: Post Step 1
+        uses: GrantBirki/comment@v2.1.1
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
@@ -42,11 +50,13 @@ jobs:
           vars: |
             login: ${{ github.actor }}
             full_repo_name: ${{ github.repository }}
-      - uses: GrantBirki/comment@v2.1.1
+      - name: Watching for progress
+        uses: GrantBirki/comment@v2.1.1
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
           file: exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
-      - run: gh workflow enable "Step 1"
+      - name: Enable Step 1
+        run: gh workflow enable "Step 1"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
