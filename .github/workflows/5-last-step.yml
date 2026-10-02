@@ -36,6 +36,7 @@ jobs:
           test -f docs/implementation-review.md
           test -f docs/test-strategy.md
           test -f tests/test_priority.py
+          test -f tests/test_empty_tasks.py
           test -f docs/debugging-notes.md
           test -f docs/pr-description.md
           test -f x-review.md
