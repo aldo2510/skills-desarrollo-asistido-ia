@@ -1,5 +1,17 @@
 ## Step 5: Revisión final
 
+### Teoría: human-in-the-loop
+
+El objetivo del desarrollo asistido por IA no es eliminar la responsabilidad del desarrollador.
+
+Un flujo seguro mantiene al humano en tres puntos:
+
+```
+Humano define → IA acelera → Humano verifica
+```
+
+La revisión final debe comprobar que el código, las pruebas, la documentación y el Pull Request cuentan la misma historia.
+
 ### 1. Ejecuta la validación completa
 
 ```bash
@@ -45,6 +57,13 @@ No inventes evidencia.
 
 Abre el Pull Request y revisa el diff.
 
+Comprueba:
+- que no haya cambios no relacionados;
+- que las pruebas realmente validen el requerimiento;
+- que la documentación corresponda al código;
+- que el bug tenga prueba de regresión;
+- que el PR describa únicamente evidencia real.
+
 Si encuentras un problema, corrígelo y vuelve a ejecutar `pytest -q`.
 
 ### 4. Crea x-review.md
@@ -87,11 +106,5 @@ Si encuentras un problema, corrígelo y vuelve a ejecutar `pytest -q`.
 ```
 
 Haz commit y push.
-
-### Resultado esperado
-
-El ejercicio demuestra:
-
-**analizar → planificar → implementar → probar → depurar → PR → revisión humana**
 
 **Tiempo: 10-12 min.**
