@@ -4,6 +4,8 @@ Abre el repositorio en Codespaces:
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/{{full_repo_name}}?quickstart=1)
 
+### 1. Línea base
+
 Ejecuta:
 
 ```bash
@@ -11,14 +13,30 @@ pip install -r requirements.txt
 pytest -q
 ```
 
-Usa Copilot Chat en modo Agent con un prompt similar a:
+Confirma que la línea base pasa antes de modificar el producto.
 
-> Analiza este proyecto como un developer senior. Explica la arquitectura, los archivos principales, los endpoints y cómo ejecutar las pruebas. No cambies ningún archivo.
+### 2. Exploración asistida
+
+Usa Copilot Chat en modo Agent con prompts como:
+
+> Analiza este proyecto como un developer senior. Explica la arquitectura, los archivos principales, los endpoints, el modelo de datos y cómo se ejecutan las pruebas. No cambies ningún archivo.
+
+> ¿Qué riesgos técnicos ves si agregamos un nuevo atributo obligatorio al recurso Task?
+
+No aceptes cambios todavía. Compara las respuestas de Copilot con el código real.
+
+### 3. Documentación
 
 Crea `docs/project-analysis.md` con:
-- mención de FastAPI;
-- endpoints principales;
-- cómo ejecutar las pruebas;
-- explicación breve de `app/main.py`.
 
-Haz commit y push. GitHub validará el resultado.
+- arquitectura y responsabilidad de cada archivo;
+- endpoints existentes;
+- modelos `Task` y `TaskCreate`;
+- estrategia actual de persistencia;
+- cómo ejecutar las pruebas;
+- al menos **2 riesgos o decisiones técnicas** detectadas con ayuda de IA;
+- qué información de Copilot verificaste manualmente.
+
+Haz commit y push.
+
+**Tiempo sugerido: 12-15 min.**
