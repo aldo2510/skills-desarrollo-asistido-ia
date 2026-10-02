@@ -1,80 +1,97 @@
-## Step 5: Revisión final y reflexión humana
+## Step 5: Revisión final
 
-> **Idea clave:** terminar el código no significa terminar el trabajo. La última etapa consiste en demostrar qué decidiste, qué verificaste y dónde mantuviste control humano.
+### 1. Ejecuta la validación completa
 
-### 1. Revisa toda la evidencia
+```bash
+pytest -q
+test -f docs/project-analysis.md
+test -f docs/implementation-plan.md
+test -f docs/implementation-review.md
+test -f docs/test-strategy.md
+test -f docs/debugging-notes.md
+test -f docs/pr-description.md
+test -f x-review.md
+```
 
-Comprueba que existan:
-- docs/project-analysis.md
-- docs/implementation-plan.md
-- docs/implementation-review.md
-- tests/test_priority.py
-- docs/test-strategy.md
-- docs/debugging-notes.md
-- docs/pr-description.md
-- Pull Request abierto contra main
+### 2. Revisión final con Copilot
 
-Ejecuta una última vez:
+Copia y pega:
 
-    pytest -q
+```text
+Revisa el cambio completo del ejercicio contra el requerimiento original.
 
-### 2. Revisa el Pull Request como reviewer
+No modifiques archivos.
 
-Lee el diff completo y responde:
-- ¿el cambio implementa exactamente el requerimiento?
-- ¿hay código innecesario?
-- ¿las pruebas realmente demuestran el comportamiento?
-- ¿el bug de robustez quedó cubierto por una regresión?
-- ¿la documentación coincide con lo que realmente se hizo?
+Comprueba:
+- priority low/medium/high;
+- priority obligatoria;
+- GET /tasks;
+- pruebas;
+- corrección del bug de tasks vacía;
+- documentación;
+- coherencia entre código, tests y PR.
 
-Si encuentras un problema, corrígelo y vuelve a ejecutar las pruebas.
+Devuelve:
+1. requisitos cumplidos;
+2. requisitos no cumplidos;
+3. riesgos;
+4. inconsistencias;
+5. recomendaciones.
 
-### 3. Completa x-review.md
+No inventes evidencia.
+```
 
-Usa esta estructura:
+### 3. Revisión humana
 
-    # Revisión humana final
+Abre el Pull Request y revisa el diff.
 
-    ## 1. Sugerencia de IA que acepté
-    - ...
+Si encuentras un problema, corrígelo y vuelve a ejecutar `pytest -q`.
 
-    ## 2. Sugerencia de IA que modifiqué o rechacé
-    - ...
-    - Motivo:
+### 4. Crea x-review.md
 
-    ## 3. Defecto que descubrí personalmente
-    - ...
+**Copia esta estructura:**
 
-    ## 4. Validación que nunca delegaría completamente a la IA
-    - ...
+```markdown
+# Revisión humana final
 
-    ## 5. Evidencia que me convenció
-    - ...
+## 1. Sugerencia de IA que acepté
+- ...
 
-    ## 6. Reflexión
-    ### ¿Dónde aportó más valor la IA?
-    ...
+## 2. Sugerencia de IA que modifiqué o rechacé
+- ...
+- Motivo: ...
 
-    ### ¿Dónde fue necesario mi criterio?
-    ...
+## 3. Defecto que detecté
+- ...
 
-    ### ¿Qué habría ocurrido si aceptaba todos los cambios sin revisar?
-    ...
+## 4. Validación que no delegaría completamente a la IA
+- ...
 
-    ### ¿Qué volvería a delegar a Copilot?
-    ...
+## 5. Evidencia revisada
+- ...
 
-    ### ¿Qué mantendría bajo control humano?
-    ...
+## 6. ¿Dónde aportó más valor la IA?
+...
+
+## 7. ¿Dónde fue necesario criterio humano?
+...
+
+## 8. ¿Qué habría ocurrido si aceptaba todos los cambios sin revisar?
+...
+
+## 9. ¿Qué volvería a delegar?
+...
+
+## 10. ¿Qué mantendría bajo control humano?
+...
+```
 
 Haz commit y push.
 
-### 4. Cierre
+### Resultado esperado
 
-El objetivo no es demostrar que Copilot puede escribir código.
+El ejercicio demuestra:
 
-El objetivo es demostrar que puedes utilizar IA dentro de un ciclo de ingeniería manteniendo:
+**analizar → planificar → implementar → probar → depurar → PR → revisión humana**
 
-**contexto → criterio → implementación → pruebas → debugging → revisión humana.**
-
-**Tiempo sugerido: 10-12 min.**
+**Tiempo: 10-12 min.**
