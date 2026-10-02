@@ -1,6 +1,9 @@
 name: Step 5 # Final step
 
 on:
+  push:
+    paths:
+      - "x-review.md"
   workflow_dispatch:
 
 permissions:
@@ -14,9 +17,12 @@ env:
 
 jobs:
   find_exercise:
+    if: ${{ !github.event.repository.is_template }}
+    name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.9.1
 
   check_final:
+    name: Validate final evidence
     needs: [find_exercise]
     runs-on: ubuntu-latest
     steps:
@@ -38,6 +44,7 @@ jobs:
           pytest -q
 
   post_review_content:
+    name: Post review
     needs: [find_exercise, check_final]
     runs-on: ubuntu-latest
     env:
