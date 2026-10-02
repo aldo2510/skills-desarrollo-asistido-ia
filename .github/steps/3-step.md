@@ -1,35 +1,15 @@
-## Step 3: (replace-me: STEP-NAME)
+## Step 3: Implementa con Copilot Agent
 
-(replace-me: OPTIONAL Brief story or scenario to introduce the step)
+Pide a Copilot:
 
-### 📖 Theory: (replace-me: Theory title)
+> Implementa el requerimiento de prioridad descrito en docs/implementation-plan.md. Inspecciona el código existente, modifica los modelos y endpoints necesarios, valida los valores permitidos y agrega las pruebas necesarias. Ejecuta pytest y explícame qué cambiaste.
 
-<!-- GitHub-styled notifications can be used outside of ordered lists. Available options are: NOTE, IMPORTANT, WARNING, TIP, CAUTION -->
-<!--
-> [!NOTE]
-> (Important note or additional information relevant to this section)
- -->
+Revisa el diff antes de aceptarlo.
 
-(replace-me: Optional theory or background information relevant to this step)
+Debes conseguir:
+- campo priority en Task;
+- prioridad al crear;
+- prioridad al consultar;
+- valores low, medium y high.
 
-### ⌨️ Activity: (replace-me: Activity title)
-
-1. (replace-me: First instruction)
-
-   (replace-me: Make sure to properly indent any multiline instructions)
-
-1. (replace-me: Second instruction)
-
-   (replace-me: Optionally reference images from the `.github/images/` directory to support any part of the content)
-
-   <img width="200" alt="descriptive alt text" src="../images/jetpacktocat.png" />
-
-1. (replace-me: Additional instructions as needed)
-
-<details>
-<summary>Having trouble? 🤷</summary><br/>
-
-- (replace-me: Troubleshooting tip or hint)
-- (replace-me: Additional troubleshooting tips as needed)
-
-</details>
+Haz commit y push.
