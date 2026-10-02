@@ -1,71 +1,70 @@
-name: Step 3 # Last step of the exercise
+name: Step 3
 
 on:
   workflow_dispatch:
-  # Common event triggers: pull_request, push, issues, issue_comment (feel free to experiment)
-  # Docs: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
-  # Example:
-  # pull_request:
-  #   branches:
-  #     - main
-  #   types:
-  #     - closed
 
 permissions:
-  contents: write
+  contents: read
   actions: write
   issues: write
+  pull-requests: read
 
 env:
   REVIEW_FILE: ".github/steps/x-review.md"
 
 jobs:
   find_exercise:
-    name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.9.1
 
+  check_final_work:
+    needs: [find_exercise]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate final evidence
+        run: |
+          test -f docs/implementation-review.md
+          test -f tests/test_priority.py
+          test -f docs/debugging-notes.md
+          test -f docs/pr-description.md
+          test -f x-review.md
+          python -m pip install -r requirements.txt
+          pytest -q
+      - name: Validate Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: test "$(gh pr list --base main --state open --json number --jq 'length')" -ge 1
+
   post_review_content:
-    name: Post review content
-    needs: [find_exercise] # if check_step_work then "needs: [find_exercise, check_step_work]"
+    needs: [find_exercise, check_final_work]
     runs-on: ubuntu-latest
     env:
       ISSUE_REPOSITORY: ${{ github.repository }}
       ISSUE_NUMBER: ${{ needs.find_exercise.outputs.issue-number }}
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Get response templates
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
           ref: v0.9.1
-
-      - name: Create comment - step finished - final review next
-        uses: GrantBirki/comment@v2.1.1
+      - uses: GrantBirki/comment@v2.1.1
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
-          file: exercise-toolkit/markdown-templates/step-feedback/lesson-review.md
-
-      - name: Create comment - add review content
-        uses: GrantBirki/comment@v2.1.1
+          file: exercise-toolkit/markdown-templates/lesson-review.md
+      - uses: GrantBirki/comment@v2.1.1
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
           file: ${{ env.REVIEW_FILE }}
-
-      - name: Disable current workflow
-        run: gh workflow disable "${{github.workflow}}"
+      - run: gh workflow disable "${{github.workflow}}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   finish_exercise:
-    name: Finish Exercise
     needs: [find_exercise, post_review_content]
     uses: skills/exercise-toolkit/.github/workflows/finish-exercise.yml@v0.9.1
     with:
       issue-url: ${{ needs.find_exercise.outputs.issue-url }}
-      exercise-title: "(replace-me: Exercise title)"
+      exercise-title: "Desarrollo asistido por IA con GitHub Copilot"
