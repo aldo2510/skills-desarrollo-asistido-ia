@@ -11,7 +11,6 @@ Aprende a usar GitHub Copilot como asistente de desarrollo para analizar, planif
   - Cuenta de GitHub.
   - GitHub Codespaces o un entorno local con Python 3.11+.
   - Acceso a GitHub Copilot.
-
 - **How long**: 50-60 minutos.
 
 En este ejercicio vas a:
