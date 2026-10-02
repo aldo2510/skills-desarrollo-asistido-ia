@@ -32,7 +32,7 @@ def list_tasks():
 
 @app.post("/tasks", response_model=Task, status_code=201)
 def create_task(payload: TaskCreate):
-    new_id = max((task.id for task in tasks), default=0) + 1
+    new_id = max(task.id for task in tasks) + 1
     task = Task(id=new_id, title=payload.title)
     tasks.append(task)
     return task
