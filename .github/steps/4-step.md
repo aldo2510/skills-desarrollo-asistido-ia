@@ -1,8 +1,20 @@
 ## Step 4: Depura y prepara el Pull Request
 
-### 1. Reproduce el bug
+### Teoría: debugging asistido por IA
 
-La función `create_task` tiene una debilidad cuando `tasks` está vacía.
+Debugging no significa pedirle a la IA que "arregle el error" inmediatamente.
+
+Un proceso reproducible es:
+
+```
+Síntoma → reproducción → evidencia → causa raíz → alternativas → corrección → regresión
+```
+
+La prueba de regresión es especialmente importante: evita que un bug corregido vuelva a aparecer.
+
+En este ejercicio existe deliberadamente un bug en el cálculo del ID cuando la colección de tareas está vacía.
+
+### 1. Reproduce el bug
 
 Copia y pega:
 
@@ -43,7 +55,7 @@ Explica:
 4. dos alternativas de corrección;
 5. ventajas y riesgos de cada alternativa.
 
-Después indica cuál alternativa tiene menor impacto sobre el comportamiento existente.
+Después indica qué evidencia respalda la causa raíz.
 ```
 
 ### 4. Corrige
@@ -115,10 +127,10 @@ Incluye:
 No inventes resultados.
 ```
 
-Crea `docs/pr-description.md`:
+Crea `docs/pr-description.md` con:
 
 ```markdown
-# Pull Request: Task Priority
+# Pull Request
 
 ## Problema
 ...
@@ -166,7 +178,7 @@ Busca:
 No modifiques archivos. Devuelve los hallazgos ordenados por prioridad.
 ```
 
-Corrige cualquier hallazgo y vuelve a ejecutar:
+Corrige cualquier hallazgo y ejecuta:
 
 ```bash
 pytest -q
