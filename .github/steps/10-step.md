@@ -1,74 +1,73 @@
 # Step 10 — Reflexión y control humano
 
-## Teoría
-El objetivo de desarrollo asistido por IA no es eliminar al desarrollador. Es aumentar velocidad manteniendo responsabilidad humana.
+## Objetivo
+Cerrar el laboratorio demostrando que IA asistida no significa decisión automática.
 
 ## 1. Prompt final
 ~~~text
-Analiza todo el ejercicio y mi documentación.
-
+Revisa todo el ejercicio de desarrollo asistido por IA.
 No modifiques archivos.
-
 Resume:
-1. qué tareas fueron aceleradas por IA;
-2. qué decisiones requirieron revisión humana;
-3. qué evidencia permitió aceptar los cambios;
-4. qué riesgos permanecerían en un proyecto real;
-5. qué no debería delegarse ciegamente a una IA.
-
+1. qué hizo la IA;
+2. qué verificaciones hizo la persona;
+3. qué cambios fueron aceptados;
+4. qué cambios fueron rechazados o ajustados;
+5. qué pruebas demuestran el resultado;
+6. qué riesgo permanece.
 No escribas código.
 ~~~
 
 ## 2. Crea x-review.md
+
 ~~~markdown
 # Human Review
 
-## 1. Qué aceleró la IA
-- Lectura inicial del proyecto.
-- Propuesta del plan.
-- Implementación inicial.
-- Generación y revisión de pruebas.
-- Revisión del diff.
-- Documentación técnica.
+## Flujo revisado
+Requerimiento → análisis → plan → implementación asistida por IA → pruebas → debugging → PR → code review → validación final → decisión humana.
 
-## 2. Qué decidí como humano
-- Alcance del cambio.
-- Solución técnica aceptada.
-- Pruebas necesarias.
-- Correcciones aceptadas.
-- Riesgos que requieren seguimiento.
-
-## 3. Evidencia revisada
+## Evidencia revisada
 - docs/project-analysis.md
 - docs/implementation-plan.md
-- git diff
-- pytest -q
+- docs/implementation-review.md
+- docs/test-strategy.md
 - docs/debugging-notes.md
+- docs/pr-description.md
 - docs/code-review.md
 - docs/technical-decisions.md
+- docs/ai-learning.md
 - docs/final-validation.md
 
-## 4. Regla de control humano
-No se aceptó una recomendación de IA únicamente por haber sido generada por IA. Las afirmaciones importantes fueron contrastadas con código, pruebas o evidencia del repositorio.
+## Checklist
+- [ ] El requerimiento está cubierto.
+- [ ] El diff fue revisado.
+- [ ] Las pruebas pasan.
+- [ ] El caso de colección vacía está cubierto.
+- [ ] No existen cambios fuera de alcance.
+- [ ] Los riesgos están documentados.
+- [ ] La decisión técnica tiene evidencia.
 
-## 5. Reflexión
-La IA puede acelerar análisis, implementación y revisión, pero la responsabilidad sobre el cambio, su seguridad y sus consecuencias sigue siendo humana.
+## Decisión humana
+**Resultado:** Acepto / Acepto con observaciones / Rechazo
+
+**Motivo:** Escribe aquí la razón basada en la evidencia del repositorio.
+
+## Reflexión
+La IA acelera análisis, implementación y revisión, pero la responsabilidad de aceptar el cambio permanece en la persona desarrolladora.
 ~~~
 
 ## 3. Validación final
 ~~~bash
 test -f x-review.md
 test -f docs/final-validation.md
-test -f docs/technical-decisions.md
 pytest -q
+git diff --check
 ~~~
 
-## 4. Commit y push
+## 4. Commit
 ~~~bash
 git add x-review.md
-git commit -m "docs: complete human review"
+git commit -m "docs: complete final human review"
 git push
 ~~~
 
-No hagas merge automáticamente. El cierre del ejercicio debe quedar después de la validación de GitHub Skills.
-**Tiempo sugerido: 8–10 min.**
+No cierres el ejercicio manualmente; espera la validación de GitHub Skills.
