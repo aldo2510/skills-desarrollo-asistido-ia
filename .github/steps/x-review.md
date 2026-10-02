@@ -1,16 +1,30 @@
 ## Review
 
-_Congratulations, you've completed this exercise and learned a lot about (replace-me: feature/product that was taught in this exercise)
+# Desarrollo asistido por IA: revisión final
 
-<img src="https://octodex.github.com/images/jetpacktocat.png" alt="celebrate" width=200 align=right>
+Has recorrido un ciclo completo de desarrollo con IA: exploración, planificación, implementación, pruebas, debugging y colaboración.
 
-Here's a recap of your accomplishments:
+### Evidencia de aprendizaje
 
-- (replace-me: Accomplishment #1)
-- (replace-me: Accomplishment #N)
+Revisa que hayas producido:
 
-### What's next?
+- `docs/project-analysis.md`
+- `docs/implementation-plan.md`
+- `docs/implementation-review.md`
+- `tests/test_priority.py`
+- `docs/test-strategy.md`
+- `docs/debugging-notes.md`
+- `docs/pr-description.md`
+- Pull Request contra `main`
 
-- (replace-me: Natural follow up Skills exercise - if there is one)
-- (replace-me: Documentation link to learn more about the feature)
-- (replace-me: Other resources or calls to action)
+### Reflexión
+
+Resume:
+
+1. dónde la IA aceleró el trabajo;
+2. dónde necesitaste criterio humano;
+3. qué sugerencia de IA no aceptaste;
+4. qué validación fue imprescindible;
+5. qué harías diferente en un proyecto real.
+
+La IA puede acelerar el ciclo de desarrollo; la revisión, las pruebas y las decisiones técnicas siguen siendo responsabilidad del desarrollador.
