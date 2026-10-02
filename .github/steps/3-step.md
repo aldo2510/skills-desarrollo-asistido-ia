@@ -1,116 +1,149 @@
 ## Step 3: Implementa y prueba
 
-> **Idea clave:** ahora vas a pasar del plan al código, pero manteniendo control sobre cada cambio que propone la IA.
+### Objetivo
+Implementar el plan sin escribir el código manualmente.
 
-### 1. Implementa con Copilot Agent
+### 1. Implementación con Copilot Agent
 
-Pide a Copilot Agent:
+Copia y pega:
 
-> Implementa el requerimiento de prioridad descrito en docs/implementation-plan.md. Inspecciona el código existente, modifica solo los archivos necesarios, valida low/medium/high, haz que priority sea obligatoria al crear una tarea y agrega las pruebas necesarias. Ejecuta pytest y explícame los cambios.
+```text
+Implementa el requerimiento descrito en docs/implementation-plan.md.
 
-Antes de aceptar el resultado:
-- revisa el diff;
-- identifica cada archivo modificado;
-- comprueba que cada cambio responde al plan;
-- pregunta por cualquier cambio que no entiendas.
+Antes de modificar:
+1. inspecciona el código existente;
+2. identifica los archivos necesarios;
+3. respeta la estructura actual;
+4. no modifiques funcionalidades fuera del requerimiento.
 
-Debes conseguir:
-- Task contiene priority;
-- solo se aceptan low, medium y high;
-- crear una tarea exige prioridad;
-- GET /tasks devuelve prioridad.
+Implementa:
+- Task con priority;
+- valores permitidos low, medium y high;
+- priority obligatoria al crear;
+- priority visible en GET /tasks.
 
-### 2. Comprueba la funcionalidad
+Agrega las pruebas necesarias.
 
-Ejecuta:
+Ejecuta pytest -q.
 
-    pytest -q
+Al terminar:
+- muestra los archivos modificados;
+- explica cada cambio;
+- indica el resultado de las pruebas;
+- no hagas cambios que no estén relacionados con el requerimiento.
+```
 
-Además, prueba manualmente al menos una petición válida y una inválida.
+Revisa el diff y ejecuta:
 
-### 3. Compara dos soluciones
+```bash
+pytest -q
+```
 
-Pide a Copilot:
+### 2. Comparación de alternativas
 
-> Propón otra forma de modelar y validar priority. Compara la implementación actual con la alternativa en claridad, mantenibilidad, validación automática y extensibilidad. No cambies el código.
+Copia y pega:
 
-Crea docs/implementation-review.md con esta estructura:
+```text
+Analiza la implementación actual de priority.
 
-    # Revisión de implementación
+No modifiques archivos.
 
-    ## Opción implementada
-    - Descripción:
-    - Cómo funciona:
-    - Ventajas:
-    - Riesgos:
+Propón una alternativa para modelar y validar priority y compárala con la implementación actual usando:
+- claridad;
+- mantenibilidad;
+- validación;
+- extensibilidad;
+- riesgo de errores.
 
-    ## Alternativa propuesta por Copilot
-    - Descripción:
-    - Ventajas:
-    - Riesgos:
+Indica cuál implementación está actualmente en el código y qué ventajas tiene.
+```
 
-    ## Comparación
-    | Criterio | Actual | Alternativa |
-    |---|---|---|
-    | Claridad | ... | ... |
-    | Mantenibilidad | ... | ... |
-    | Validación | ... | ... |
-    | Extensibilidad | ... | ... |
+Crea `docs/implementation-review.md`:
 
-    ## Decisión humana
-    - Qué elegí:
-    - Por qué:
-    - Qué cambié o rechacé de la propuesta de IA:
+```markdown
+# Implementation Review
 
-### 4. Diseña las pruebas con IA
+## Opción implementada
+...
 
-Pide:
+## Alternativa
+...
 
-> Diseña una estrategia de pruebas para priority. Enumera primero los escenarios y el riesgo que cubre cada uno. Después implementa tests/test_priority.py.
+## Comparación
+| Criterio | Implementada | Alternativa |
+|---|---|---|
+| Claridad | ... | ... |
+| Mantenibilidad | ... | ... |
+| Validación | ... | ... |
+| Extensibilidad | ... | ... |
+| Riesgo | ... | ... |
 
-Cubre:
-- low;
-- medium;
-- high;
-- prioridad inválida;
-- prioridad ausente;
-- prioridad visible en GET /tasks;
-- creación de una tarea con prioridad.
+## Decisión humana
+- Opción seleccionada:
+- Motivo:
+- Qué recomendación de Copilot acepté:
+- Qué recomendación modifiqué o rechacé:
+```
 
-Después pide:
+### 3. Generación de pruebas
 
-> Revisa estas pruebas como QA senior. Busca assertions débiles, falsos positivos y escenarios que podrían pasar aunque la implementación estuviera incorrecta.
+Copia y pega:
 
-Crea docs/test-strategy.md con esta estructura:
+```text
+Diseña e implementa tests/test_priority.py.
 
-    # Estrategia de pruebas
+Cubre obligatoriamente:
+1. low;
+2. medium;
+3. high;
+4. prioridad inválida;
+5. prioridad ausente;
+6. prioridad devuelta por GET /tasks;
+7. creación correcta de una tarea con priority.
 
-    ## Escenarios cubiertos
-    | Escenario | Qué valida | Resultado |
-    |---|---|---|
-    | ... | ... | ... |
+Después ejecuta pytest -q.
+No modifiques pruebas existentes salvo que sea necesario para mantenerlas correctas.
+```
 
-    ## Escenarios no cubiertos
-    - ...
+Crea `docs/test-strategy.md`:
 
-    ## Recomendaciones de Copilot
-    - ...
+```markdown
+# Test Strategy
 
-    ## Verificación humana
-    - Qué revisé:
-    - Qué prueba corregí:
-    - Por qué:
+## Escenarios
+| Escenario | Qué valida | Resultado |
+|---|---|---|
+| low | ... | ... |
+| medium | ... | ... |
+| high | ... | ... |
+| inválida | ... | ... |
+| ausente | ... | ... |
+| GET /tasks | ... | ... |
 
-### 5. Criterios de salida
+## Revisión QA
 
-- [ ] La funcionalidad está implementada.
-- [ ] tests/test_priority.py existe.
-- [ ] La suite pasa.
-- [ ] Existe docs/implementation-review.md.
-- [ ] Existe docs/test-strategy.md.
-- [ ] Revisaste el diff.
-- [ ] Comparaste una alternativa.
+Copia y pega:
+
+"Revisa tests/test_priority.py como QA senior. Busca assertions débiles, falsos positivos y escenarios que podrían pasar aunque la implementación estuviera incorrecta. No modifiques el archivo. Devuelve los hallazgos."
+
+Hallazgos:
+- ...
+
+## Verificación humana
+- ...
+```
+
+### 4. Salida
+
+```bash
+pytest -q
+```
+
+Deben existir:
+- docs/implementation-review.md
+- docs/test-strategy.md
+- tests/test_priority.py
 
 Haz commit y push.
 
-**Tiempo sugerido: 22-24 min.**
+**Tiempo: 22-24 min.**
