@@ -1,36 +1,21 @@
-## Step 2: (replace-me: STEP-NAME)
+## Step 2: Convierte el requerimiento en un plan
 
-(replace-me: OPTIONAL Brief story or scenario to introduce the step)
+### Requerimiento
 
-### 📖 Theory: (replace-me: Theory title)
+> Las tareas deben tener una prioridad: low, medium o high. La prioridad debe ser obligatoria al crear una tarea y debe aparecer al consultar tareas.
 
-<!-- GitHub-styled notifications can be used outside of ordered lists. Available options are: NOTE, IMPORTANT, WARNING, TIP, CAUTION -->
-<!--
-> [!NOTE]
-> (Important note or additional information relevant to this section)
- -->
+Pide a Copilot:
 
-(replace-me: Optional theory or background information relevant to this step)
+> Analiza este requerimiento, inspecciona el código y crea un plan detallado de implementación. No implementes todavía.
 
-(replace-me: OPTIONAL Reference images from the `.github/images/` directory to support any part of the content)
+Guarda el plan en `docs/implementation-plan.md`.
 
-<img width="200" alt="descriptive alt text" src="../images/inflatocat.png" />
+Debe mencionar:
+- modelo Task;
+- modelo de creación;
+- POST /tasks;
+- GET /tasks;
+- pruebas;
+- low, medium y high.
 
-
-### ⌨️ Activity: (replace-me: Activity title)
-
-1. (replace-me: First instruction)
-
-    (replace-me: Make sure to properly indent any multiline instructions)
-
-1. (replace-me: Second instruction)
-
-1. (replace-me: Additional instructions as needed)
-
-<details>
-<summary>Having trouble? 🤷</summary><br/>
-
-- (replace-me: Troubleshooting tip or hint)
-- (replace-me: Additional troubleshooting tips as needed)
-
-</details>
+Haz commit y push.
