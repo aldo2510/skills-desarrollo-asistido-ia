@@ -1,39 +1,20 @@
 # Step 1 — Analiza el proyecto
 
 ## Objetivo
-Antes de modificar un sistema con IA, establece una línea base. En este Step solo observarás, preguntarás a Copilot y verificarás. No modifiques código.
+Comprender el sistema antes de modificarlo. Copilot es apoyo; la evidencia definitiva está en el repositorio.
 
-## 1. Revisa el proyecto
-~~~bash
-find . -maxdepth 3 -type f | sort
-sed -n '1,240p' app/main.py
-sed -n '1,240p' tests/test_api.py
-cat requirements.txt
-~~~
-
-## 2. Prompt exacto para Copilot
+## Prompt opcional para Copilot
 ~~~text
 Analiza este proyecto FastAPI como un ingeniero senior.
-
-No modifiques ningún archivo y no escribas código.
-
-Explícame:
-1. La responsabilidad de cada archivo relevante.
-2. Los endpoints disponibles, método HTTP, entrada y respuesta.
-3. Los modelos Task y TaskCreate y sus campos.
-4. Cómo se almacenan actualmente las tareas.
-5. Cómo funcionan las pruebas.
-6. El flujo completo de POST /tasks.
-7. El flujo completo de PATCH /tasks/{task_id}.
-8. Al menos 2 riesgos o decisiones técnicas que debo conocer antes de modificar el proyecto.
-
-Termina con una sección llamada "Lo que Copilot dijo vs. lo que debo verificar" con al menos 3 verificaciones concretas.
-
-No escribas código.
-No hagas cambios.
+No modifiques ningún archivo ni escribas código.
+Explica arquitectura, endpoints, modelos, persistencia, pruebas, flujo de POST /tasks, flujo de PATCH /tasks/{task_id} y dos riesgos técnicos.
+Termina con 3 afirmaciones que yo deba verificar directamente en el repositorio.
 ~~~
 
-## 3. Crea docs/project-analysis.md
+## 1. Crea docs/project-analysis.md
+
+Copia y pega exactamente:
+
 ~~~markdown
 # Project Analysis
 
@@ -64,15 +45,15 @@ No hagas cambios.
 ## 4. Persistencia actual
 Las tareas se almacenan en memoria mediante la lista global tasks. No existe una base de datos y los datos se pierden al reiniciar el proceso.
 
-## 5. Pruebas
-El proyecto utiliza pytest y FastAPI TestClient.
+## 5. Ejecución de pruebas
+El proyecto utiliza pytest y FastAPI TestClient. La suite se ejecuta con pytest -q.
 
 ## 6. Flujo de POST /tasks
 1. Recibe TaskCreate.
 2. Valida la entrada.
 3. Calcula el nuevo ID.
 4. Crea Task.
-5. Agrega la tarea a la lista.
+5. Agrega la tarea a tasks.
 6. Devuelve la tarea.
 
 ## 7. Flujo de PATCH /tasks/{task_id}
@@ -82,13 +63,13 @@ El proyecto utiliza pytest y FastAPI TestClient.
 4. Devuelve la tarea.
 5. Si no existe, devuelve 404.
 
-## 8. Riesgos
+## 8. Riesgos técnicos
 1. La información se pierde al reiniciar.
-2. El ID depende del estado actual de la lista.
+2. El ID depende del estado actual de la colección.
 3. La lista global representa estado compartido durante la ejecución.
 4. Las pruebas dependen del estado inicial del módulo.
 
-## 9. Lo que Copilot dijo vs. lo que verifiqué
+## 9. Lo que verifiqué
 | Afirmación | Verificación | Resultado |
 |---|---|---|
 | La aplicación utiliza FastAPI | Revisé app/main.py | Confirmado |
@@ -96,19 +77,18 @@ El proyecto utiliza pytest y FastAPI TestClient.
 | Existen cuatro endpoints | Revisé las rutas | Confirmado |
 
 ## 10. Conclusión
-La aplicación es una API FastAPI pequeña con almacenamiento en memoria y pruebas automatizadas. La IA se utilizó como apoyo y el código real del repositorio fue la fuente de verificación.
+La aplicación es una API FastAPI pequeña, con almacenamiento en memoria y pruebas automatizadas. La IA se utiliza como apoyo y el código real del repositorio es la fuente de verificación.
 ~~~
 
-## 4. Verificación
+## 2. Verificación
 ~~~bash
 test -f docs/project-analysis.md
 pytest -q
 ~~~
 
-## 5. Commit
+## 3. Commit
 ~~~bash
 git add docs/project-analysis.md
 git commit -m "docs: analyze project"
 git push
-~~~
-**Tiempo sugerido: 10–12 min.**
+~~
